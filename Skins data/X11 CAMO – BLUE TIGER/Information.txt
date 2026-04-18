@@ -1,0 +1,69 @@
+DLC: X11 Camo DLC
+Compatible Items (all X11 variants):
+
+590A1
+Agram
+AK5C
+AK-74
+AK-109 Alpha
+AKM
+AKS-74U
+AS VAL
+AWM
+BAR
+Barrett M107A1
+PP Bizon
+C1911
+CX8 Storm
+Desert Eagle
+Dragunov
+FAMAS
+FN57
+G36K
+G3A3
+Galil
+Glock 17
+Tikka T3
+L85A2
+Luty
+Colt-M16A2
+M1903A3
+M1A SASS
+M249
+M4 Carbine
+MAC-10
+Marlin 1894
+MAT-49
+MCX Spear
+Mosin
+MP 40
+MP5
+MP7
+MP9
+Tapco SKS
+FN P90
+Makarov
+PPSH
+Ruger MK4
+Saiga 12
+SCAR-L
+SG552
+SKS (Full Auto)
+SKS 45
+AUG
+Stoner 63
+Taurus Raging Hunter
+Thompson
+Tokarev
+Fin Reaper
+UMP 45
+HK USP45
+Vector 9mm
+Vector 10mm
+VSS
+XM250
+MP5K
+Glock 17 (Blicky)
+FN FAL
+H&K 416
+MDR

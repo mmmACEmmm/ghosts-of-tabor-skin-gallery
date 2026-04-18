@@ -1,0 +1,8 @@
+Source: Game Edition
+Compatible Items:
+
+M4 Carbine
+STANAG Magazine
+Delta Secure Container
+Alpha Secure Container
+Omega Secure Container

@@ -1,0 +1,15 @@
+Source: DLC
+Compatible Items:
+
+AK5C
+FN FAL
+Barrett M107A1
+M249
+AKS-74U
+Galil
+SKS 45
+SCAR-L
+H&K MP5
+H&K MP5K
+Glock 17
+Glock 17 (Blicky)

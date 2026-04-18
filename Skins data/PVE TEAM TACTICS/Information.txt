@@ -1,0 +1,10 @@
+Source: DLC
+Compatible Items:
+
+MCX Spear
+MCX Spear Magazine
+SCAR-L
+SCAR Magazine
+Tapco SKS
+Colt-M16A2
+STANAG Magazine

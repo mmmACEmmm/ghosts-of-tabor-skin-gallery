@@ -1,0 +1,22 @@
+DLC: Camo Weapon Skin Pack
+Compatible Items:
+
+AK-74
+AK74 Magazine
+590A1
+AK-109 Alpha
+AKM Magazine
+AWM
+AWM Magazine
+Glock 17
+Glock 17 Magazine
+SCAR-L
+SCAR Magazine
+Saiga 12
+SAIGA Magazine
+HK USP45
+USP Magazine
+Barrett M107A1
+Barret Magazine
+SG552
+SG552 Magazine

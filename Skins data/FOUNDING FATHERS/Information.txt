@@ -1,0 +1,8 @@
+Source: Game Edition
+Compatible Items:
+
+AK-109 Alpha
+AKM Magazine
+Delta Secure Container
+Alpha Secure Container
+Omega Secure Container

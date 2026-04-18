@@ -1,0 +1,8 @@
+DLC: Samurai DLC
+Compatible Items:
+
+Helmet_C1300_Samurai
+Samurai_Sword_Katana
+Custom H&K MP5
+Standard Shield Small
+Standard Shield Large
