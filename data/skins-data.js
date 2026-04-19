@@ -115,6 +115,7 @@
         "itemCount":  3,
         "coverImage":  "Skins data/BOA/BOA_icon.png?v=1776504977-157350",
         "galleryImages":  [
+                              "Skins data/BOA/preview/GLOCK_17_BOAg.png?v=1776641354-1038935",
                               "Skins data/BOA/preview/MP5K_BOA.png?v=1776502003-574368"
                           ],
         "hasGallery":  true,
