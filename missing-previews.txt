@@ -1,207 +1,168 @@
-﻿Missing Preview Checklist
-Generated: 2026-04-18 05:38:54 -07:00
-Total missing or placeholder-only preview entries: 29
-
-1. ACID SECURE CONTAINER SKIN PACK
-Status: No preview image found
-Source Label: DLC: Secure Container Skin Pack
+﻿Pack: ACID SECURE CONTAINER SKIN PACK
+Status: no preview image
+Source: DLC: Secure Container Skin Pack
 Folder: Skins data/ACID SECURE CONTAINER SKIN PACK
 Info: Skins data/ACID SECURE CONTAINER SKIN PACK/Information.txt
-Cover/Icon: Skins data/ACID SECURE CONTAINER SKIN PACK/Acid_Secure_Container_icon.png
+Cover: Skins data/ACID SECURE CONTAINER SKIN PACK/Acid_Secure_Container_icon.png
 
-2. BLACK FLAG SECURE CONTAINER SKIN PACK
-Status: No preview image found
-Source Label: DLC: Secure Container Skin Pack
+Pack: ADVANEDGE
+Status: no preview image
+Source: Source: AdvantEdge Complete the "Patronage" quest
+Folder: Skins data/ADVANEDGE
+Info: Skins data/ADVANEDGE/Information.txt
+Cover: Skins data/ADVANEDGE/AdvantEdge_icon.png
+
+Pack: BLACK FLAG SECURE CONTAINER SKIN PACK
+Status: no preview image
+Source: DLC: Secure Container Skin Pack
 Folder: Skins data/BLACK FLAG SECURE CONTAINER SKIN PACK
 Info: Skins data/BLACK FLAG SECURE CONTAINER SKIN PACK/Information.txt
-Cover/Icon: Skins data/BLACK FLAG SECURE CONTAINER SKIN PACK/Black_Flag_Secure_Container_icon.png
+Cover: Skins data/BLACK FLAG SECURE CONTAINER SKIN PACK/Black_Flag_Secure_Container_icon.png
 
-3. BORIS BATON SECURE CONTAINER SKIN PACK
-Status: No preview image found
-Source Label: DLC: Secure Container Skin Pack
+Pack: BORIS BATON SECURE CONTAINER SKIN PACK
+Status: no preview image
+Source: DLC: Secure Container Skin Pack
 Folder: Skins data/BORIS BATON SECURE CONTAINER SKIN PACK
 Info: Skins data/BORIS BATON SECURE CONTAINER SKIN PACK/Information.txt
-Cover/Icon: Skins data/BORIS BATON SECURE CONTAINER SKIN PACK/Boris_Baton_Secure_Container_icon.png
+Cover: Skins data/BORIS BATON SECURE CONTAINER SKIN PACK/Boris_Baton_Secure_Container_icon.png
 
-4. CHRISTMAS
-Status: No preview image found
-Source Label: Source: Twitch Drop
+Pack: CHRISTMAS
+Status: no preview image
+Source: Source: Twitch Drop
 Folder: Skins data/CHRISTMAS
 Info: Skins data/CHRISTMAS/Information.txt
-Cover/Icon: Skins data/CHRISTMAS/Christmas_skin_icon.png
+Cover: Skins data/CHRISTMAS/Christmas_skin_icon.png
 
-5. CHROMATIC HEAT
-Status: Placeholder preview only
-Source Label: Source: DLC
+Pack: Christmas_Twitch_Drop
+Status: no preview image
+Source: Source: Christmas Twitch Drop
+Folder: Skins data/Christmas_Twitch_Drop
+Info: Skins data/Christmas_Twitch_Drop/Information.txt
+Cover: Skins data/Christmas_Twitch_Drop/Christmas_Twitch_Drop_icon.png
+
+Pack: CHROMATIC HEAT
+Status: placeholder preview only
+Source: Source: DLC
 Folder: Skins data/CHROMATIC HEAT
 Info: Skins data/CHROMATIC HEAT/Information.txt
-Cover/Icon: Skins data/CHROMATIC HEAT/CHROMATIC_HEAT_icon.png
+Cover: Skins data/CHROMATIC HEAT/CHROMATIC_HEAT_icon.png
 
-6. COMB
-Status: Placeholder preview only
-Source Label: DLC: Camo Weapon Skin Pack
+Pack: COMB
+Status: placeholder preview only
+Source: DLC: Camo Weapon Skin Pack
 Folder: Skins data/COMB
 Info: Skins data/COMB/Information.txt
-Cover/Icon: Skins data/COMB/COMB_icon.png
+Cover: Skins data/COMB/COMB_icon.png
 
-7. CRYPTIC SECURE CONTAINER SKIN PACK
-Status: No preview image found
-Source Label: DLC: Secure Container Skin Pack
+Pack: CRYPTIC SECURE CONTAINER SKIN PACK
+Status: no preview image
+Source: DLC: Secure Container Skin Pack
 Folder: Skins data/CRYPTIC SECURE CONTAINER SKIN PACK
 Info: Skins data/CRYPTIC SECURE CONTAINER SKIN PACK/Information.txt
-Cover/Icon: Skins data/CRYPTIC SECURE CONTAINER SKIN PACK/Cryptic_Secure_Container_icon.png
+Cover: Skins data/CRYPTIC SECURE CONTAINER SKIN PACK/Cryptic_Secure_Container_icon.png
 
-8. GK SECURE CONTAINER SKIN PACK
-Status: No preview image found
-Source Label: DLC: Secure Container Skin Pack
+Pack: GK SECURE CONTAINER SKIN PACK
+Status: no preview image
+Source: DLC: Secure Container Skin Pack
 Folder: Skins data/GK SECURE CONTAINER SKIN PACK
 Info: Skins data/GK SECURE CONTAINER SKIN PACK/Information.txt
-Cover/Icon: Skins data/GK SECURE CONTAINER SKIN PACK/GK_Secure_Container_Skin_Pack.png
+Cover: Skins data/GK SECURE CONTAINER SKIN PACK/GK_Secure_Container_Skin_Pack.png
 
-9. HALLOWEEN
-Status: No preview image found
-Source Label: Source: Twitch Drop
+Pack: HALLOWEEN
+Status: no preview image
+Source: Source: Twitch Drop
 Folder: Skins data/HALLOWEEN
 Info: Skins data/HALLOWEEN/Information.txt
-Cover/Icon: Skins data/HALLOWEEN/Halloween_icon.png
+Cover: Skins data/HALLOWEEN/Halloween_icon.png
 
-10. HONEY BADGER WIPE REWARD
-Status: No preview image found
-Source Label: Source: Wipe Reward
+Pack: HONEY BADGER WIPE REWARD
+Status: no preview image
+Source: Source: Wipe Reward
 Folder: Skins data/HONEY BADGER WIPE REWARD
 Info: Skins data/HONEY BADGER WIPE REWARD/Information.txt
-Cover/Icon: Skins data/HONEY BADGER WIPE REWARD/Honey_badger_wipe_reward_skin_icon.png
+Cover: Skins data/HONEY BADGER WIPE REWARD/Honey_badger_wipe_reward_skin_icon.png
 
-11. KRYPTEK
-Status: Placeholder preview only
-Source Label: DLC: Camo Weapon Skin Pack
+Pack: KRYPTEK
+Status: placeholder preview only
+Source: DLC: Camo Weapon Skin Pack
 Folder: Skins data/KRYPTEK
 Info: Skins data/KRYPTEK/Information.txt
-Cover/Icon: Skins data/KRYPTEK/KRYPTEK_icon.png
+Cover: Skins data/KRYPTEK/KRYPTEK_icon.png
 
-12. M9 WIPE REWARD
-Status: No preview image found
-Source Label: Source: Wipe Reward
+Pack: M9 WIPE REWARD
+Status: no preview image
+Source: Source: Wipe Reward
 Folder: Skins data/M9 WIPE REWARD
 Info: Skins data/M9 WIPE REWARD/Information.txt
-Cover/Icon: Skins data/M9 WIPE REWARD/M9_wipe_reward_skin_icon.png
+Cover: Skins data/M9 WIPE REWARD/M9_wipe_reward_skin_icon.png
 
-13. NEON SECURE CONTAINER SKIN PACK
-Status: No preview image found
-Source Label: DLC: Secure Container Skin Pack
+Pack: NEON SECURE CONTAINER SKIN PACK
+Status: no preview image
+Source: DLC: Secure Container Skin Pack
 Folder: Skins data/NEON SECURE CONTAINER SKIN PACK
 Info: Skins data/NEON SECURE CONTAINER SKIN PACK/Information.txt
-Cover/Icon: Skins data/NEON SECURE CONTAINER SKIN PACK/Neon_Secure_Container_icon.png
+Cover: Skins data/NEON SECURE CONTAINER SKIN PACK/Neon_Secure_Container_icon.png
 
-14. PAYDAY
-Status: Placeholder preview only
-Source Label: DLC: PAYDAY DLC
+Pack: PAYDAY
+Status: placeholder preview only
+Source: DLC: PAYDAY DLC
 Folder: Skins data/PAYDAY
 Info: Skins data/PAYDAY/Information.txt
-Cover/Icon: Skins data/PAYDAY/Payday_weapon_skin_system.png
+Cover: Skins data/PAYDAY/Payday_weapon_skin_system.png
 
-15. RFCP
-Status: No preview image found
-Source Label: Source: Twitch Drop
+Pack: RFCP
+Status: no preview image
+Source: Source: Twitch Drop
 Folder: Skins data/RFCP
 Info: Skins data/RFCP/Information.txt
-Cover/Icon: Skins data/RFCP/RFCP_icon.png
+Cover: Skins data/RFCP/RFCP_icon.png
 
-16. STEAM GOTY
-Status: Placeholder preview only
-Source Label: Source: Played in 2024
-Folder: Skins data/STEAM GOTY
-Info: Skins data/STEAM GOTY/Information.txt
-Cover/Icon: Skins data/STEAM GOTY/STEAM_GOTY_icon.png
+Pack: SPLINTER CELL
+Status: no preview image
+Source: Source: Splinter Cell DLC
+Folder: Skins data/SPLINTER CELL
+Info: Skins data/SPLINTER CELL/Information.txt
+Cover: Skins data/SPLINTER CELL/Splinter_Cell_icon.png
 
-17. STICKERS SECURE CONTAINER SKIN PACK
-Status: No preview image found
-Source Label: DLC: Secure Container Skin Pack
+Pack: STICKERS SECURE CONTAINER SKIN PACK
+Status: no preview image
+Source: DLC: Secure Container Skin Pack
 Folder: Skins data/STICKERS SECURE CONTAINER SKIN PACK
 Info: Skins data/STICKERS SECURE CONTAINER SKIN PACK/Information.txt
-Cover/Icon: Skins data/STICKERS SECURE CONTAINER SKIN PACK/Stickers_Secure_Container_icon.png
+Cover: Skins data/STICKERS SECURE CONTAINER SKIN PACK/Stickers_Secure_Container_icon.png
 
-18. URBAN
-Status: Placeholder preview only
-Source Label: DLC: Camo Weapon Skin Pack
+Pack: URBAN
+Status: placeholder preview only
+Source: DLC: Camo Weapon Skin Pack
 Folder: Skins data/URBAN
 Info: Skins data/URBAN/Information.txt
-Cover/Icon: Skins data/URBAN/URBAN_icon.png
+Cover: Skins data/URBAN/URBAN_icon.png
 
-19. X11 CAMO – BLACK COMB
-Status: No preview image found
-Source Label: DLC: X11 Camo DLC
+Pack: X11 CAMO – BLACK COMB
+Status: no preview image
+Source: DLC: X11 Camo DLC
 Folder: Skins data/X11 CAMO – BLACK COMB
 Info: Skins data/X11 CAMO – BLACK COMB/Information.txt
-Cover/Icon: Skins data/X11 CAMO – BLACK COMB/X11_Camo_Black_Comb_icon.png
+Cover: Skins data/X11 CAMO – BLACK COMB/X11_Camo_Black_Comb_icon.png
 
-20. X11 CAMO – BLUE TIGER
-Status: No preview image found
-Source Label: DLC: X11 Camo DLC
-Folder: Skins data/X11 CAMO – BLUE TIGER
-Info: Skins data/X11 CAMO – BLUE TIGER/Information.txt
-Cover/Icon: Skins data/X11 CAMO – BLUE TIGER/X11_Camo_Blue_Tiger_icon.png
-
-21. X11 CAMO – GRASSLAND
-Status: No preview image found
-Source Label: DLC: X11 Camo DLC
-Folder: Skins data/X11 CAMO – GRASSLAND
-Info: Skins data/X11 CAMO – GRASSLAND/Information.txt
-Cover/Icon: Skins data/X11 CAMO – GRASSLAND/X11_Camo_Grassland_icon.png
-
-22. X11 CAMO – HEX
-Status: No preview image found
-Source Label: DLC: X11 Camo DLC
+Pack: X11 CAMO – HEX
+Status: no preview image
+Source: DLC: X11 Camo DLC
 Folder: Skins data/X11 CAMO – HEX
 Info: Skins data/X11 CAMO – HEX/Information.txt
-Cover/Icon: Skins data/X11 CAMO – HEX/X11_Camo_Hex_icon.png
+Cover: Skins data/X11 CAMO – HEX/X11_Camo_Hex_icon.png
 
-23. X11 CAMO – HORNET
-Status: No preview image found
-Source Label: DLC: X11 Camo DLC
-Folder: Skins data/X11 CAMO – HORNET
-Info: Skins data/X11 CAMO – HORNET/Information.txt
-Cover/Icon: Skins data/X11 CAMO – HORNET/X11_Camo_Hornet_icon.png
-
-24. X11 CAMO – MILTECH
-Status: No preview image found
-Source Label: DLC: X11 Camo DLC
-Folder: Skins data/X11 CAMO – MILTECH
-Info: Skins data/X11 CAMO – MILTECH/Information.txt
-Cover/Icon: Skins data/X11 CAMO – MILTECH/X11_Camo_Miltech_icon.png
-
-25. X11 CAMO – MOSS
-Status: No preview image found
-Source Label: DLC: X11 Camo DLC
+Pack: X11 CAMO – MOSS
+Status: no preview image
+Source: DLC: X11 Camo DLC
 Folder: Skins data/X11 CAMO – MOSS
 Info: Skins data/X11 CAMO – MOSS/Information.txt
-Cover/Icon: Skins data/X11 CAMO – MOSS/X11_Camo_Moss_icon.png
+Cover: Skins data/X11 CAMO – MOSS/X11_Camo_Moss_icon.png
 
-26. X11 CAMO – RED URBAN
-Status: No preview image found
-Source Label: DLC: X11 Camo DLC
-Folder: Skins data/X11 CAMO – RED URBAN
-Info: Skins data/X11 CAMO – RED URBAN/Information.txt
-Cover/Icon: Skins data/X11 CAMO – RED URBAN/X11_Camo_Red_Urban_icon.png
-
-27. X11 CAMO – SHATTERED
-Status: No preview image found
-Source Label: DLC: X11 Camo DLC
-Folder: Skins data/X11 CAMO – SHATTERED
-Info: Skins data/X11 CAMO – SHATTERED/Information.txt
-Cover/Icon: Skins data/X11 CAMO – SHATTERED/X11_Camo_Shattered_icon.png
-
-28. X11 CAMO – WASP
-Status: No preview image found
-Source Label: DLC: X11 Camo DLC
-Folder: Skins data/X11 CAMO – WASP
-Info: Skins data/X11 CAMO – WASP/Information.txt
-Cover/Icon: Skins data/X11 CAMO – WASP/X11_Camo_Wasp_icon.png
-
-29. X11 CAMO – WOODLAND
-Status: No preview image found
-Source Label: DLC: X11 Camo DLC
+Pack: X11 CAMO – WOODLAND
+Status: no preview image
+Source: DLC: X11 Camo DLC
 Folder: Skins data/X11 CAMO – WOODLAND
 Info: Skins data/X11 CAMO – WOODLAND/Information.txt
-Cover/Icon: Skins data/X11 CAMO – WOODLAND/X11_Camo_woodland_icon.png
+Cover: Skins data/X11 CAMO – WOODLAND/X11_Camo_woodland_icon.png
 

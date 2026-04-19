@@ -20,6 +20,26 @@
         "infoPath":  "Skins data/ACID SECURE CONTAINER SKIN PACK/Information.txt"
     },
     {
+        "name":  "ADVANEDGE",
+        "slug":  "advanedge",
+        "sourceType":  "Source",
+        "sourceValue":  "AdvantEdge Complete the \"Patronage\" quest",
+        "sourceLabel":  "Source: AdvantEdge Complete the \"Patronage\" quest",
+        "compatibleItems":  [
+                                "GearTech G4",
+                                "Adventure Backpack",
+                                "Sling Backpack"
+                            ],
+        "itemCount":  3,
+        "coverImage":  "Skins data/ADVANEDGE/AdvantEdge_icon.png",
+        "galleryImages":  [
+
+                          ],
+        "hasGallery":  false,
+        "hasPlaceholderPreview":  false,
+        "infoPath":  "Skins data/ADVANEDGE/Information.txt"
+    },
+    {
         "name":  "AK74 WIPE REWARD",
         "slug":  "ak74-wipe-reward",
         "sourceType":  "Source",
@@ -138,6 +158,27 @@
         "hasGallery":  false,
         "hasPlaceholderPreview":  false,
         "infoPath":  "Skins data/CHRISTMAS/Information.txt"
+    },
+    {
+        "name":  "Christmas_Twitch_Drop",
+        "slug":  "christmas-twitch-drop",
+        "sourceType":  "Source",
+        "sourceValue":  "Christmas Twitch Drop",
+        "sourceLabel":  "Source: Christmas Twitch Drop",
+        "compatibleItems":  [
+                                "Ragnar Backpack",
+                                "RGO Frag",
+                                "AWM",
+                                "AWM magazine"
+                            ],
+        "itemCount":  4,
+        "coverImage":  "Skins data/Christmas_Twitch_Drop/Christmas_Twitch_Drop_icon.png",
+        "galleryImages":  [
+
+                          ],
+        "hasGallery":  false,
+        "hasPlaceholderPreview":  false,
+        "infoPath":  "Skins data/Christmas_Twitch_Drop/Information.txt"
     },
     {
         "name":  "CHROMATIC HEAT",
@@ -737,6 +778,28 @@
         "infoPath":  "Skins data/SKS TAPCO CHRISTMAS SPECIAL/Information.txt"
     },
     {
+        "name":  "SPLINTER CELL",
+        "slug":  "splinter-cell",
+        "sourceType":  "Source",
+        "sourceValue":  "Splinter Cell DLC",
+        "sourceLabel":  "Source: Splinter Cell DLC",
+        "compatibleItems":  [
+                                "FN57",
+                                "FN57 20-round magazine",
+                                "FN57 30-round magazine",
+                                "MP7",
+                                "MP7 magazine"
+                            ],
+        "itemCount":  5,
+        "coverImage":  "Skins data/SPLINTER CELL/Splinter_Cell_icon.png",
+        "galleryImages":  [
+
+                          ],
+        "hasGallery":  false,
+        "hasPlaceholderPreview":  false,
+        "infoPath":  "Skins data/SPLINTER CELL/Information.txt"
+    },
+    {
         "name":  "STEAM GOTY",
         "slug":  "steam-goty",
         "sourceType":  "Source",
@@ -748,10 +811,10 @@
         "itemCount":  1,
         "coverImage":  "Skins data/STEAM GOTY/STEAM_GOTY_icon.png",
         "galleryImages":  [
-                              "Skins data/STEAM GOTY/preview/placeholder (No preview Gathered yet).png"
+                              "Skins data/STEAM GOTY/preview/Desert_Eagle_STEAM_GOTY.png"
                           ],
         "hasGallery":  true,
-        "hasPlaceholderPreview":  true,
+        "hasPlaceholderPreview":  false,
         "infoPath":  "Skins data/STEAM GOTY/Information.txt"
     },
     {
@@ -1028,9 +1091,9 @@
         "itemCount":  66,
         "coverImage":  "Skins data/X11 CAMO – BLUE TIGER/X11_Camo_Blue_Tiger_icon.png",
         "galleryImages":  [
-
+                              "Skins data/X11 CAMO – BLUE TIGER/preview/Desert_Eagle_X11_Camo_Blue_Tiger.png"
                           ],
-        "hasGallery":  false,
+        "hasGallery":  true,
         "hasPlaceholderPreview":  false,
         "infoPath":  "Skins data/X11 CAMO – BLUE TIGER/Information.txt"
     },
@@ -1111,9 +1174,9 @@
         "itemCount":  66,
         "coverImage":  "Skins data/X11 CAMO – GRASSLAND/X11_Camo_Grassland_icon.png",
         "galleryImages":  [
-
+                              "Skins data/X11 CAMO – GRASSLAND/preview/Desert_Eagle_X11_Camo_Grassland.png"
                           ],
-        "hasGallery":  false,
+        "hasGallery":  true,
         "hasPlaceholderPreview":  false,
         "infoPath":  "Skins data/X11 CAMO – GRASSLAND/Information.txt"
     },
@@ -1277,9 +1340,9 @@
         "itemCount":  66,
         "coverImage":  "Skins data/X11 CAMO – HORNET/X11_Camo_Hornet_icon.png",
         "galleryImages":  [
-
+                              "Skins data/X11 CAMO – HORNET/preview/Desert_Eagle_X11_Camo_Hornet.png"
                           ],
-        "hasGallery":  false,
+        "hasGallery":  true,
         "hasPlaceholderPreview":  false,
         "infoPath":  "Skins data/X11 CAMO – HORNET/Information.txt"
     },
@@ -1360,9 +1423,9 @@
         "itemCount":  66,
         "coverImage":  "Skins data/X11 CAMO – MILTECH/X11_Camo_Miltech_icon.png",
         "galleryImages":  [
-
+                              "Skins data/X11 CAMO – MILTECH/preview/Desert_Eagle_X11_Camo_Miltech.png"
                           ],
-        "hasGallery":  false,
+        "hasGallery":  true,
         "hasPlaceholderPreview":  false,
         "infoPath":  "Skins data/X11 CAMO – MILTECH/Information.txt"
     },
@@ -1526,9 +1589,9 @@
         "itemCount":  66,
         "coverImage":  "Skins data/X11 CAMO – RED URBAN/X11_Camo_Red_Urban_icon.png",
         "galleryImages":  [
-
+                              "Skins data/X11 CAMO – RED URBAN/preview/Desert_Eagle_X11_Camo_Red_Urban.png"
                           ],
-        "hasGallery":  false,
+        "hasGallery":  true,
         "hasPlaceholderPreview":  false,
         "infoPath":  "Skins data/X11 CAMO – RED URBAN/Information.txt"
     },
@@ -1609,9 +1672,9 @@
         "itemCount":  66,
         "coverImage":  "Skins data/X11 CAMO – SHATTERED/X11_Camo_Shattered_icon.png",
         "galleryImages":  [
-
+                              "Skins data/X11 CAMO – SHATTERED/preview/Desert_Eagle_X11_Camo_Shattered.png"
                           ],
-        "hasGallery":  false,
+        "hasGallery":  true,
         "hasPlaceholderPreview":  false,
         "infoPath":  "Skins data/X11 CAMO – SHATTERED/Information.txt"
     },
@@ -1692,9 +1755,9 @@
         "itemCount":  66,
         "coverImage":  "Skins data/X11 CAMO – WASP/X11_Camo_Wasp_icon.png",
         "galleryImages":  [
-
+                              "Skins data/X11 CAMO – WASP/preview/Desert_Eagle_X11_Camo_Wasp.png"
                           ],
-        "hasGallery":  false,
+        "hasGallery":  true,
         "hasPlaceholderPreview":  false,
         "infoPath":  "Skins data/X11 CAMO – WASP/Information.txt"
     },
