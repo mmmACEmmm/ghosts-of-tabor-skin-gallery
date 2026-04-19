@@ -32,10 +32,17 @@
   };
 
   function encodeAssetPath(path) {
-    return String(path || "")
-      .split("/")
-      .map(encodeURIComponent)
-      .join("/");
+    const rawValue = String(path || "");
+    const queryIndex = rawValue.indexOf("?");
+    const basePath = queryIndex >= 0 ? rawValue.slice(0, queryIndex) : rawValue;
+    const query = queryIndex >= 0 ? rawValue.slice(queryIndex) : "";
+
+    return (
+      basePath
+        .split("/")
+        .map(encodeURIComponent)
+        .join("/") + query
+    );
   }
 
   function escapeHtml(value) {

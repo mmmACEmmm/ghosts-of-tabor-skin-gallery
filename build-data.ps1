@@ -16,6 +16,21 @@ function Get-RelativeWebPath {
   return ($relative -replace "\\", "/")
 }
 
+function Get-RelativeWebAssetPath {
+  param(
+    [System.IO.FileInfo]$File,
+    [string]$Root
+  )
+
+  if ($null -eq $File) {
+    return $null
+  }
+
+  $relative = Get-RelativeWebPath -FullPath $File.FullName -Root $Root
+  $stamp = [DateTimeOffset]::new($File.LastWriteTimeUtc).ToUnixTimeSeconds()
+  return "${relative}?v=$stamp-$($File.Length)"
+}
+
 function Normalize-ImportedText {
   param(
     [string]$Value
@@ -87,8 +102,8 @@ $data = foreach ($folder in $folders) {
     sourceLabel = if ($sourceType -and $sourceValue) { "${sourceType}: $sourceValue" } elseif ($sourceType) { $sourceType } else { "Unknown source" }
     compatibleItems = $compatibleItems
     itemCount = $compatibleItems.Count
-    coverImage = if ($rootImages.Count -gt 0) { Get-RelativeWebPath $rootImages[0].FullName $workspace } else { $null }
-    galleryImages = @($previewImages | ForEach-Object { Get-RelativeWebPath $_.FullName $workspace })
+    coverImage = if ($rootImages.Count -gt 0) { Get-RelativeWebAssetPath -File $rootImages[0] -Root $workspace } else { $null }
+    galleryImages = @($previewImages | ForEach-Object { Get-RelativeWebAssetPath -File $_ -Root $workspace })
     hasGallery = $previewImages.Count -gt 0
     hasPlaceholderPreview = @($previewImages | Where-Object { $_.Name -match "placeholder" }).Count -gt 0
     infoPath = if (Test-Path $infoPath) { Get-RelativeWebPath $infoPath $workspace } else { $null }
