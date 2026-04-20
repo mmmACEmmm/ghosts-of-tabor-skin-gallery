@@ -1,5 +1,5 @@
 import { fetchJson } from "/assets/js/api-client.js";
-import { initAppShell } from "/assets/js/app-shell.js?v=20260419c";
+import { initAppShell } from "/assets/js/app-shell.js?v=20260420a";
 import {
   encodeAssetPath,
   escapeHtml,
@@ -11,7 +11,6 @@ import {
 const CARD_ITEM_LIMIT = 15;
 
 const elements = {
-  galleryModeBanner: document.getElementById("galleryModeBanner"),
   searchInput: document.getElementById("searchInput"),
   sortSelect: document.getElementById("sortSelect"),
   resultsLabel: document.getElementById("resultsLabel"),
@@ -310,14 +309,6 @@ async function loadGallery() {
   skins = mergeGallerySkins(rawSkins, galleryResponse?.rows ?? null, {
     useLocalFallback: useFallback,
   });
-
-  if (elements.galleryModeBanner) {
-    const showingFallback = !galleryResponse?.configured;
-    elements.galleryModeBanner.hidden = !showingFallback;
-    elements.galleryModeBanner.textContent = showingFallback
-      ? "Supabase isn't configured yet, so the gallery is showing the bundled preview images from this repo."
-      : "Public cards below combine the legacy archive previews from this repo with approved Supabase submissions.";
-  }
 
   renderFilters();
   renderGrid();

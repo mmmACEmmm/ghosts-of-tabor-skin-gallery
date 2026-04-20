@@ -1,4 +1,4 @@
-import { initAppShell } from "/assets/js/app-shell.js?v=20260419c";
+import { initAppShell } from "/assets/js/app-shell.js?v=20260420a";
 import {
   getCurrentUser,
   isSupabaseConfigured,

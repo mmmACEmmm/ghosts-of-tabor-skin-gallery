@@ -70,7 +70,6 @@ function applyNavState(state) {
   const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
   const displayName = getDiscordName(state.user);
   const avatarUrl = getDiscordAvatar(state.user);
-  const roleLabel = state.isAdmin ? "Admin access" : "Signed in with Discord";
   const initialText = getInitials(displayName);
 
   document.querySelectorAll("[data-nav-link]").forEach((link) => {
@@ -107,8 +106,10 @@ function applyNavState(state) {
   });
 
   document.querySelectorAll("[data-user-role]").forEach((node) => {
-    node.textContent = state.user ? roleLabel : "";
-    node.classList.toggle("is-admin", Boolean(state.user && state.isAdmin));
+    const showRole = Boolean(state.user && state.isAdmin);
+    node.hidden = !showRole;
+    node.textContent = showRole ? "Admin" : "";
+    node.classList.toggle("is-admin", showRole);
   });
 
   document.querySelectorAll("[data-user-avatar]").forEach((node) => {
@@ -127,15 +128,6 @@ function applyNavState(state) {
   document.querySelectorAll("[data-user-initial]").forEach((node) => {
     node.hidden = !state.user || Boolean(avatarUrl);
     node.textContent = state.user ? initialText : "";
-  });
-
-  document.querySelectorAll("[data-session-label]").forEach((node) => {
-    if (!state.configured) {
-      node.textContent = "Supabase env vars are not configured yet.";
-      return;
-    }
-
-    node.textContent = state.user ? roleLabel : "Browsing publicly.";
   });
 }
 
