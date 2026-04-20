@@ -6,7 +6,7 @@ import {
   loadStaticSkinData,
   mergeGallerySkins,
   pluralize,
-} from "/assets/js/skin-data.js";
+} from "/assets/js/skin-data.js?v=20260419d";
 
 const CARD_ITEM_LIMIT = 15;
 
@@ -316,7 +316,7 @@ async function loadGallery() {
     elements.galleryModeBanner.hidden = !showingFallback;
     elements.galleryModeBanner.textContent = showingFallback
       ? "Supabase isn't configured yet, so the gallery is showing the bundled preview images from this repo."
-      : "Public cards below are powered by approved Supabase submissions only.";
+      : "Public cards below combine the legacy archive previews from this repo with approved Supabase submissions.";
   }
 
   renderFilters();

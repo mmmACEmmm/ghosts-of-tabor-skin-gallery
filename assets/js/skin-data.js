@@ -42,6 +42,46 @@ function unique(values) {
   return Array.from(new Set(values.filter(Boolean)));
 }
 
+function getMediaKey(value) {
+  const rawValue = safeString(value).trim();
+  if (!rawValue) {
+    return "";
+  }
+
+  let normalized = rawValue;
+  try {
+    normalized = decodeURIComponent(rawValue);
+  } catch (_error) {
+    normalized = rawValue;
+  }
+
+  return normalized
+    .replace(/^https?:\/\/[^/]+/i, "")
+    .replace(/^\/+/, "");
+}
+
+function mergeImageLists(...lists) {
+  const seen = new Set();
+  const merged = [];
+
+  lists.flat().forEach((value) => {
+    const imagePath = safeString(value).trim();
+    if (!imagePath) {
+      return;
+    }
+
+    const mediaKey = getMediaKey(imagePath);
+    if (seen.has(mediaKey)) {
+      return;
+    }
+
+    seen.add(mediaKey);
+    merged.push(imagePath);
+  });
+
+  return merged;
+}
+
 function getSourceGroup(entry) {
   const sourceType = safeString(entry.sourceType).trim();
   const sourceValue = safeString(entry.sourceValue).trim();
@@ -117,21 +157,20 @@ export function mergeGallerySkins(rawSkins, approvedRows, options = {}) {
   }
 
   return rawSkins.map((entry) => {
-    const fallbackGallery = useLocalFallback
-      ? Array.isArray(entry.galleryImages)
-        ? entry.galleryImages
-        : []
-      : [];
-
+    const legacyGallery = Array.isArray(entry.galleryImages) ? entry.galleryImages : [];
+    const approvedGallery = Array.isArray(approvedRows) ? groupedApproved.get(entry.slug) || [] : [];
     const galleryImages = Array.isArray(approvedRows)
-      ? groupedApproved.get(entry.slug) || []
-      : fallbackGallery;
+      ? mergeImageLists(legacyGallery, approvedGallery)
+      : useLocalFallback
+        ? legacyGallery
+        : [];
+    const hasRealPreview = galleryImages.some((path) => !/placeholder/i.test(path));
 
     return normalizeSkin({
       ...entry,
       galleryImages,
       hasGallery: galleryImages.length > 0,
-      hasPlaceholderPreview: useLocalFallback ? Boolean(entry.hasPlaceholderPreview) : false,
+      hasPlaceholderPreview: Boolean(entry.hasPlaceholderPreview) && !hasRealPreview,
     });
   });
 }
