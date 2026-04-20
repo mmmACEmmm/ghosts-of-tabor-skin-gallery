@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Ghosts of Tabor Skin Gallery</title>
+  <link rel="stylesheet" href="/styles.css?v=20260419b">
+</head>
+<body>
+  <main class="page-shell page-shell-narrow">
+    <header class="site-header panel-card">
+      <div class="site-header-copy">
+        <p class="eyebrow">COMMUNITY ARCHIVE</p>
+        <h1>Login with Discord</h1>
+        <p class="panel-copy">Use your Discord account for submissions, status tracking, and admin access.</p>
+      </div>
+
+      <div class="site-header-nav">
+        <nav class="nav-links" aria-label="Primary">
+          <a href="/" class="nav-link" data-nav-link>Gallery</a>
+          <a href="/submit" class="nav-link" data-nav-link data-auth="submit">Submit</a>
+          <a href="/my-submissions" class="nav-link" data-nav-link data-auth="my-submissions">My Submissions</a>
+          <a href="/admin" class="nav-link" data-nav-link data-auth="admin">Admin</a>
+          <a href="/login" class="nav-link nav-link-strong" data-nav-link data-auth="login">Login with Discord</a>
+          <button class="nav-link nav-button" type="button" data-auth="logout" hidden>Log out</button>
+        </nav>
+
+        <p class="session-label" data-session-label>Browsing publicly.</p>
+      </div>
+    </header>
+
+    <section class="panel-card content-panel">
+      <p class="eyebrow">AUTH</p>
+      <h2>Discord OAuth sign-in</h2>
+      <p class="guide-text">
+        This flow uses Supabase Auth with the Discord OAuth2 authorization code flow. After login,
+        you'll come back to the submission page with an active session.
+      </p>
+
+      <div class="stack-actions">
+        <button id="loginButton" class="action-link action-link-button" type="button">Login with Discord</button>
+        <a id="continueLink" class="action-link action-link-secondary" href="/submit" hidden>Continue to Submit</a>
+      </div>
+
+      <p class="inline-message" id="loginStatus" hidden></p>
+    </section>
+  </main>
+
+  <script src="/api/config.js"></script>
+  <script type="module" src="/assets/js/login-page.js"></script>
+</body>
+</html>

@@ -1,6 +1,8 @@
 $workspace = Split-Path -Parent $MyInvocation.MyCommand.Path
 $base = Join-Path $workspace "Skins data"
 $outDir = Join-Path $workspace "data"
+$supabaseDir = Join-Path $workspace "supabase"
+$seedDir = Join-Path $supabaseDir "seed"
 
 function Get-RelativeWebPath {
   param(
@@ -31,6 +33,26 @@ function Get-RelativeWebAssetPath {
   return "${relative}?v=$stamp-$($File.Length)"
 }
 
+function ConvertTo-EncodedPublicUrl {
+  param(
+    [string]$RelativePath
+  )
+
+  if (-not $RelativePath) {
+    return $null
+  }
+
+  $queryIndex = $RelativePath.IndexOf("?")
+  $basePath = if ($queryIndex -ge 0) { $RelativePath.Substring(0, $queryIndex) } else { $RelativePath }
+  $query = if ($queryIndex -ge 0) { $RelativePath.Substring($queryIndex) } else { "" }
+
+  $encodedPath = ($basePath -split "/") | ForEach-Object {
+    [System.Uri]::EscapeDataString($_)
+  }
+
+  return "/" + (($encodedPath -join "/") + $query)
+}
+
 function Normalize-ImportedText {
   param(
     [string]$Value
@@ -40,7 +62,7 @@ function Normalize-ImportedText {
     return $null
   }
 
-  if ($Value -match "[Ãâ]") {
+  if ($Value -match "[\xC3\xC2]") {
     try {
       $bytes = [System.Text.Encoding]::GetEncoding(1252).GetBytes($Value)
       return [System.Text.Encoding]::UTF8.GetString($bytes)
@@ -52,11 +74,27 @@ function Normalize-ImportedText {
   return $Value
 }
 
+function ConvertTo-SqlLiteral {
+  param(
+    [AllowNull()]
+    [object]$Value
+  )
+
+  if ($null -eq $Value) {
+    return "null"
+  }
+
+  $text = [string]$Value
+  $escaped = $text -replace "'", "''"
+  return "'$escaped'"
+}
+
 if (-not (Test-Path $base)) {
   throw "Could not find the 'Skins data' folder at $base"
 }
 
 New-Item -ItemType Directory -Force -Path $outDir | Out-Null
+New-Item -ItemType Directory -Force -Path $seedDir | Out-Null
 $folders = Get-ChildItem $base -Directory | Sort-Object Name
 
 $data = foreach ($folder in $folders) {
@@ -114,4 +152,71 @@ $json = $data | ConvertTo-Json -Depth 5
 Set-Content -Path (Join-Path $outDir "skins.json") -Value $json -Encoding UTF8
 Set-Content -Path (Join-Path $outDir "skins-data.js") -Value ("window.SKIN_DATA = " + $json + ";") -Encoding UTF8
 
-Write-Output ("Rebuilt data files for {0} skin packs." -f $data.Count)
+$skinSeedLines = @(
+  "-- Seed the public.skins table from the local static metadata."
+  "insert into public.skins (slug, name)"
+  "values"
+)
+
+$skinValueLines = @()
+foreach ($entry in $data) {
+  $skinValueLines += "  (" + (ConvertTo-SqlLiteral $entry.slug) + ", " + (ConvertTo-SqlLiteral $entry.name) + ")"
+}
+
+$skinSeedLines += ($skinValueLines -join ",`n")
+$skinSeedLines += "on conflict (slug) do update"
+$skinSeedLines += "set name = excluded.name;"
+$skinSeedLines += ""
+Set-Content -Path (Join-Path $seedDir "skins.sql") -Value ($skinSeedLines -join "`n") -Encoding UTF8
+
+$legacyOwnerPlaceholder = "__LEGACY_OWNER_USER_ID__"
+$legacyManifest = @()
+$legacySqlLines = @(
+  "-- Replace __LEGACY_OWNER_USER_ID__ with a real Supabase auth user id after your first Discord login."
+  "-- These rows keep the existing repo-hosted preview images and register them as already-approved submissions."
+  ""
+)
+
+foreach ($entry in $data) {
+  $usableGallery = @($entry.galleryImages | Where-Object { $_ -and $_ -notmatch "placeholder" })
+
+  foreach ($galleryImage in $usableGallery) {
+    $publicUrl = ConvertTo-EncodedPublicUrl -RelativePath $galleryImage
+    $storagePath = "legacy:$galleryImage"
+
+    $legacyManifest += [PSCustomObject]@{
+      skin_slug = $entry.slug
+      skin_name = $entry.name
+      storage_path = $storagePath
+      public_url = $publicUrl
+      submitted_discord_name = "Legacy Archive"
+      status = "approved"
+    }
+
+    $legacySqlLines += @(
+      "insert into public.submissions (skin_id, submitted_by, submitted_discord_name, storage_path, public_url, status, reviewed_at, reviewed_by)"
+      "select"
+      "  k.id,"
+      "  '$legacyOwnerPlaceholder'::uuid,"
+      "  'Legacy Archive',"
+      "  " + (ConvertTo-SqlLiteral $storagePath) + ","
+      "  " + (ConvertTo-SqlLiteral $publicUrl) + ","
+      "  'approved',"
+      "  now(),"
+      "  '$legacyOwnerPlaceholder'::uuid"
+      "from public.skins k"
+      "where k.slug = " + (ConvertTo-SqlLiteral $entry.slug)
+      "  and not exists ("
+      "    select 1"
+      "    from public.submissions s"
+      "    where s.storage_path = " + (ConvertTo-SqlLiteral $storagePath)
+      "  );"
+      ""
+    )
+  }
+}
+
+Set-Content -Path (Join-Path $seedDir "legacy-approved-previews.template.sql") -Value ($legacySqlLines -join "`n") -Encoding UTF8
+Set-Content -Path (Join-Path $seedDir "legacy-preview-manifest.json") -Value (($legacyManifest | ConvertTo-Json -Depth 4)) -Encoding UTF8
+
+Write-Output ("Rebuilt data files for {0} skin packs, plus Supabase seed files." -f $data.Count)

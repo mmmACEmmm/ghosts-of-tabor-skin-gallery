@@ -3,15 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Skin Pack Gallery</title>
+  <title>Ghosts of Tabor Skin Gallery</title>
   <meta
     name="description"
-    content="A local gallery for browsing weapon skin packs, icons, previews, and compatible items."
+    content="Browse Ghosts of Tabor skin packs, approved community previews, and skinning system guides."
   >
-  <link rel="stylesheet" href="styles.css?v=20260419a">
+  <link rel="stylesheet" href="styles.css?v=20260419b">
 </head>
 <body>
   <main class="page-shell">
+    <header class="site-header panel-card">
+      <div class="site-header-copy">
+        <p class="eyebrow">COMMUNITY ARCHIVE</p>
+        <h1>Ghosts of Tabor Skin Gallery</h1>
+        <p class="panel-copy">
+          Official skin pack info, approved community previews, and the bunker skinning guide in
+          one place.
+        </p>
+      </div>
+
+      <div class="site-header-nav">
+        <nav class="nav-links" aria-label="Primary">
+          <a href="/" class="nav-link" data-nav-link>Gallery</a>
+          <a href="/submit" class="nav-link" data-nav-link data-auth="submit">Submit</a>
+          <a href="/my-submissions" class="nav-link" data-nav-link data-auth="my-submissions">My Submissions</a>
+          <a href="/admin" class="nav-link" data-nav-link data-auth="admin">Admin</a>
+          <a href="/login" class="nav-link nav-link-strong" data-nav-link data-auth="login">Login with Discord</a>
+          <button class="nav-link nav-button" type="button" data-auth="logout" hidden>Log out</button>
+        </nav>
+
+        <p class="session-label" data-session-label>Browsing publicly.</p>
+      </div>
+    </header>
+
+    <section class="gallery-callout panel-card">
+      <div>
+        <p class="eyebrow">PREVIEW FLOW</p>
+        <h2>Approved submissions power the public gallery</h2>
+        <p class="guide-text">
+          Community uploads land as pending submissions first. Only moderator-approved previews are
+          shown here on the public site.
+        </p>
+      </div>
+
+      <div class="gallery-callout-actions">
+        <a class="action-link" href="/submit">Upload a Preview</a>
+        <a class="action-link action-link-secondary" href="/my-submissions">Check My Status</a>
+      </div>
+    </section>
+
+    <p class="inline-message success" id="galleryModeBanner" hidden></p>
+
     <section class="guide-section">
       <article class="panel-card guide-main">
         <div class="guide-main-copy">
@@ -175,7 +217,7 @@
           <select id="sortSelect">
             <option value="featured">Featured first</option>
             <option value="items">Most compatible items</option>
-            <option value="previews">Most gathered previews</option>
+            <option value="previews">Most approved previews</option>
             <option value="name">Name A-Z</option>
           </select>
         </label>
@@ -220,7 +262,7 @@
     </div>
   </div>
 
-  <script src="data/skins-data.js?v=20260419a"></script>
-  <script src="script.js?v=20260419a"></script>
+  <script src="/api/config.js"></script>
+  <script type="module" src="/script.js?v=20260419b"></script>
 </body>
 </html>

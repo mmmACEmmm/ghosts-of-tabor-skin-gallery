@@ -1,49 +1,55 @@
 # Ghosts of Tabor Skin Gallery
 
-A simple fan-made website for browsing Ghosts of Tabor skin packs, checking compatible items, and viewing skinning system info in one place. The site includes a searchable gallery, sort options, compatible item listings, and a guide explaining how the in-game skinning system works. :contentReference[oaicite:0]{index=0}
+This repo now supports a static Vercel deployment with backend-capable pieces layered in through Vercel API routes and Supabase. The public gallery stays lightweight, while Discord login, uploads, moderation, and approved preview delivery are handled through Supabase Auth, Storage, and server-side routes.
 
-## Features
+## Stack
 
-- Browse skin packs in a visual gallery
-- Search packs or compatible items
-- Sort by:
-  - Featured first
-  - Most compatible items
-  - Most gathered previews
-  - Name A–Z
-- Open a skin pack to view its compatible items
-- Read a built-in guide for how the skinning station works
-- View examples of spray mark locations on different item types such as backpacks, rifles, pistols, magazines, vests, LMGs, SMGs, helmet attachments, and bolt-action rifles :contentReference[oaicite:1]{index=1}
+- Vercel with the `Other` preset and no build command
+- Supabase for Postgres, Auth, and Storage
+- Discord OAuth2 login through Supabase Auth
+- Static HTML, CSS, and JS for the frontend
 
-## Skinning System Info Included on the Site
+## Pages
 
-The site also documents the Ghosts of Tabor skinning system. It explains that the system was added on December 2, 2024, and that skins can be earned through missions, Twitch drops, seasonal play, or certain DLCs and game editions. It also describes the bunker skinning station layout, how skin persistence works, how to apply a skin, and how to remove one. :contentReference[oaicite:2]{index=2}
+- `/` public gallery with approved previews only
+- `/login` Discord sign-in entry point
+- `/submit` authenticated upload form
+- `/my-submissions` per-user status view
+- `/admin` admin-only moderation queue
 
-## Station Layout
+## Local data workflow
 
-The skinning station guide on the site describes three main areas:
+The repo still treats the local `Skins data` folder as the source of truth for static pack metadata such as:
 
-- Left stand for vests, helmets, and backpacks
-- Center console for selecting skins and grabbing the skinning gun
-- Right stand for items like weapons, magazines, and face shields :contentReference[oaicite:3]{index=3}
+- pack name
+- slug
+- source label
+- compatible items
+- cover image
 
-## How to Use the Site
+Run the generator whenever that archive changes:
 
-1. Open the gallery homepage
-2. Browse the available skin packs
-3. Use the search bar to find a specific pack or compatible item
-4. Change the sort mode if needed
-5. Open a pack to view more details and compatible items
-6. Use the built-in skinning guide if you need help with how the in-game system works :contentReference[oaicite:4]{index=4}
+```powershell
+powershell -ExecutionPolicy Bypass -File .\build-data.ps1
+```
 
-## Purpose
+That rebuilds `data/skins.json` and generates Supabase seed files in `supabase/seed/`.
 
-This project is meant to make skin packs easier to browse and understand by putting previews, compatibility info, and skinning instructions in one place. That includes pack browsing plus an explanation of marks examples and reset/apply behavior. :contentReference[oaicite:5]{index=5}
+## Supabase setup
 
-## Disclaimer
+Full setup steps live in [supabase/README.md](/C:/Users/acest/Downloads/wiki%20test%20page/supabase/README.md).
 
-This is a fan-made project and is not an official Ghosts of Tabor website.
+At a high level:
 
-## Link
+1. Create a Supabase project.
+2. Create a Discord OAuth app and connect it in Supabase Auth.
+3. Run [supabase/schema.sql](/C:/Users/acest/Downloads/wiki%20test%20page/supabase/schema.sql).
+4. Import [supabase/seed/skins.sql](/C:/Users/acest/Downloads/wiki%20test%20page/supabase/seed/skins.sql).
+5. Add your Discord-backed auth UUID to `admin_users`.
+6. Set the Vercel env vars from [.env.example](/C:/Users/acest/Downloads/wiki%20test%20page/.env.example).
 
-Live site: https://mmmacemmm.github.io/ghosts-of-tabor-skin-gallery/
+## Notes
+
+- Until Supabase env vars are configured, the gallery falls back to bundled repo previews so the site still deploys cleanly.
+- Once Supabase is configured, the public preview list comes from approved database records instead of the old static preview list.
+- The `previews` storage bucket is private; public approved images are served through a Vercel API route rather than exposing pending storage paths directly.
