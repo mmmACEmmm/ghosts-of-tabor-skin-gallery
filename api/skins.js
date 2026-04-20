@@ -1,5 +1,5 @@
 const {
-  createAdminClient,
+  createAnonClient,
   sendJson,
 } = require("./_lib/supabase");
 
@@ -8,14 +8,14 @@ module.exports = async function handler(req, res) {
     return sendJson(res, 405, { error: "Method not allowed." });
   }
 
-  let admin;
+  let anon;
   try {
-    admin = createAdminClient();
+    anon = createAnonClient();
   } catch (error) {
     return sendJson(res, 503, { error: error.message });
   }
 
-  const { data, error } = await admin
+  const { data, error } = await anon
     .from("skins")
     .select("id, slug, name")
     .order("name", { ascending: true });

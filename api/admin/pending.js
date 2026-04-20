@@ -1,7 +1,6 @@
 const {
   addSkinMeta,
-  attachSignedPreviewUrls,
-  createAdminClient,
+  attachPublicPreviewUrls,
   getUserFromRequest,
   isAdminUser,
   sendJson,
@@ -19,16 +18,16 @@ module.exports = async function handler(req, res) {
 
   let admin;
   try {
-    admin = createAdminClient();
+    admin = await isAdminUser(auth.client, auth.user.id);
   } catch (error) {
-    return sendJson(res, 503, { error: error.message });
+    return sendJson(res, 500, { error: error.message });
   }
 
-  if (!(await isAdminUser(admin, auth.user.id))) {
+  if (!admin) {
     return sendJson(res, 403, { error: "You are not allowed to review submissions." });
   }
 
-  const { data, error } = await admin
+  const { data, error } = await auth.client
     .from("submissions")
     .select("id, skin_id, submitted_by, submitted_discord_name, storage_path, public_url, status, notes, created_at")
     .eq("status", "pending")
@@ -40,10 +39,10 @@ module.exports = async function handler(req, res) {
 
   let rows;
   try {
-    const withSkin = await addSkinMeta(admin, data || []);
-    rows = await attachSignedPreviewUrls(admin, withSkin);
-  } catch (error) {
-    return sendJson(res, 500, { error: error.message });
+    const withSkin = await addSkinMeta(auth.client, data || []);
+    rows = attachPublicPreviewUrls(auth.client, withSkin);
+  } catch (readError) {
+    return sendJson(res, 500, { error: readError.message });
   }
 
   res.setHeader("Cache-Control", "no-store");

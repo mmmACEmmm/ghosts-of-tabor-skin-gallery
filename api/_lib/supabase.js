@@ -9,21 +9,17 @@ function getRequiredEnv(name) {
   return value;
 }
 
-function createBaseOptions() {
+function createBaseOptions(headers = {}) {
   return {
     auth: {
       autoRefreshToken: false,
       persistSession: false,
+      detectSessionInUrl: false,
+    },
+    global: {
+      headers,
     },
   };
-}
-
-function createAdminClient() {
-  return createClient(
-    getRequiredEnv("SUPABASE_URL"),
-    getRequiredEnv("SUPABASE_SERVICE_ROLE_KEY"),
-    createBaseOptions()
-  );
 }
 
 function createAnonClient() {
@@ -31,6 +27,16 @@ function createAnonClient() {
     getRequiredEnv("SUPABASE_URL"),
     getRequiredEnv("SUPABASE_ANON_KEY"),
     createBaseOptions()
+  );
+}
+
+function createUserClient(accessToken) {
+  return createClient(
+    getRequiredEnv("SUPABASE_URL"),
+    getRequiredEnv("SUPABASE_ANON_KEY"),
+    createBaseOptions({
+      Authorization: `Bearer ${accessToken}`,
+    })
   );
 }
 
@@ -68,11 +74,22 @@ async function getUserFromRequest(req) {
     return { error: { status: 401, message: "Your session is no longer valid." } };
   }
 
-  return { token, user: data.user };
+  let client;
+  try {
+    client = createUserClient(token);
+  } catch (error) {
+    return { error: { status: 503, message: error.message } };
+  }
+
+  return {
+    token,
+    user: data.user,
+    client,
+  };
 }
 
-async function isAdminUser(adminClient, userId) {
-  const { data, error } = await adminClient
+async function isAdminUser(client, userId) {
+  const { data, error } = await client
     .from("admin_users")
     .select("user_id")
     .eq("user_id", userId)
@@ -85,12 +102,12 @@ async function isAdminUser(adminClient, userId) {
   return Boolean(data?.user_id);
 }
 
-async function getSkinsById(adminClient, skinIds) {
+async function getSkinsById(client, skinIds) {
   if (!skinIds.length) {
     return new Map();
   }
 
-  const { data, error } = await adminClient
+  const { data, error } = await client
     .from("skins")
     .select("id, slug, name")
     .in("id", skinIds);
@@ -102,9 +119,9 @@ async function getSkinsById(adminClient, skinIds) {
   return new Map((data || []).map((row) => [row.id, row]));
 }
 
-async function addSkinMeta(adminClient, submissions) {
+async function addSkinMeta(client, submissions) {
   const skinIds = Array.from(new Set((submissions || []).map((row) => row.skin_id).filter(Boolean)));
-  const skinsById = await getSkinsById(adminClient, skinIds);
+  const skinsById = await getSkinsById(client, skinIds);
 
   return (submissions || []).map((row) => ({
     ...row,
@@ -112,36 +129,27 @@ async function addSkinMeta(adminClient, submissions) {
   }));
 }
 
-async function createSignedPreviewUrl(adminClient, storagePath) {
+function getPublicPreviewUrl(client, storagePath) {
   if (!storagePath || String(storagePath).startsWith("legacy:")) {
     return null;
   }
 
-  const { data, error } = await adminClient.storage
+  const { data } = client.storage
     .from("previews")
-    .createSignedUrl(storagePath, 60 * 60);
+    .getPublicUrl(storagePath);
 
-  if (error) {
-    throw error;
-  }
-
-  return data?.signedUrl || null;
+  return data?.publicUrl || null;
 }
 
-async function attachSignedPreviewUrls(adminClient, submissions) {
-  return Promise.all(
-    (submissions || []).map(async (row) => ({
-      ...row,
-      preview_url:
-        (row.status === "approved" && row.public_url) ||
-        row.public_url ||
-        (await createSignedPreviewUrl(adminClient, row.storage_path)),
-    }))
-  );
+function attachPublicPreviewUrls(client, submissions) {
+  return (submissions || []).map((row) => ({
+    ...row,
+    preview_url: row.public_url || getPublicPreviewUrl(client, row.storage_path),
+  }));
 }
 
-async function getSubmission(adminClient, submissionId) {
-  const { data, error } = await adminClient
+async function getSubmission(client, submissionId) {
+  const { data, error } = await client
     .from("submissions")
     .select("*")
     .eq("id", submissionId)
@@ -178,10 +186,11 @@ async function getJsonBody(req) {
 
 module.exports = {
   addSkinMeta,
-  attachSignedPreviewUrls,
-  createAdminClient,
+  attachPublicPreviewUrls,
   createAnonClient,
+  createUserClient,
   getJsonBody,
+  getPublicPreviewUrl,
   getRequiredEnv,
   getSubmission,
   getUserFromRequest,

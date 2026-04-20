@@ -40,6 +40,12 @@ from public.submissions s
 join public.skins k on k.id = s.skin_id
 where s.status = 'approved';
 
+grant usage on schema public to anon, authenticated;
+grant select on public.skins to anon, authenticated;
+grant select on public.approved_previews to anon, authenticated;
+grant select, insert, update on public.submissions to authenticated;
+grant select on public.admin_users to authenticated;
+
 alter table public.skins enable row level security;
 alter table public.submissions enable row level security;
 alter table public.admin_users enable row level security;
@@ -105,7 +111,7 @@ to authenticated
 using (user_id = auth.uid());
 
 insert into storage.buckets (id, name, public)
-values ('previews', 'previews', false)
+values ('previews', 'previews', true)
 on conflict (id) do update
 set public = excluded.public;
 
@@ -120,17 +126,6 @@ with check (
   and (storage.foldername(name))[2] = auth.uid()::text
 );
 
-drop policy if exists "users can view own pending previews" on storage.objects;
-create policy "users can view own pending previews"
-on storage.objects
-for select
-to authenticated
-using (
-  bucket_id = 'previews'
-  and (storage.foldername(name))[1] = 'pending'
-  and (storage.foldername(name))[2] = auth.uid()::text
-);
-
 drop policy if exists "users can delete own pending previews" on storage.objects;
 create policy "users can delete own pending previews"
 on storage.objects
@@ -140,18 +135,4 @@ using (
   bucket_id = 'previews'
   and (storage.foldername(name))[1] = 'pending'
   and (storage.foldername(name))[2] = auth.uid()::text
-);
-
-drop policy if exists "admins can view preview objects" on storage.objects;
-create policy "admins can view preview objects"
-on storage.objects
-for select
-to authenticated
-using (
-  bucket_id = 'previews'
-  and exists (
-    select 1
-    from public.admin_users a
-    where a.user_id = auth.uid()
-  )
 );

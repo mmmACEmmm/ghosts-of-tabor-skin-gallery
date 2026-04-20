@@ -1,6 +1,6 @@
 const {
-  createAdminClient,
   getJsonBody,
+  getPublicPreviewUrl,
   getSubmission,
   getUserFromRequest,
   isAdminUser,
@@ -19,19 +19,19 @@ module.exports = async function handler(req, res) {
 
   let admin;
   try {
-    admin = createAdminClient();
+    admin = await isAdminUser(auth.client, auth.user.id);
   } catch (error) {
-    return sendJson(res, 503, { error: error.message });
+    return sendJson(res, 500, { error: error.message });
   }
 
-  if (!(await isAdminUser(admin, auth.user.id))) {
+  if (!admin) {
     return sendJson(res, 403, { error: "You are not allowed to review submissions." });
   }
 
   let body;
   try {
     body = await getJsonBody(req);
-  } catch (error) {
+  } catch (_error) {
     return sendJson(res, 400, { error: "Request body must be valid JSON." });
   }
 
@@ -42,7 +42,7 @@ module.exports = async function handler(req, res) {
 
   let submission;
   try {
-    submission = await getSubmission(admin, submissionId);
+    submission = await getSubmission(auth.client, submissionId);
   } catch (error) {
     return sendJson(res, 500, { error: error.message });
   }
@@ -59,12 +59,14 @@ module.exports = async function handler(req, res) {
   };
 
   if (action === "approved") {
-    update.public_url = submission.public_url || `/api/previews?submissionId=${encodeURIComponent(submission.id)}`;
+    update.public_url =
+      submission.public_url ||
+      getPublicPreviewUrl(auth.client, submission.storage_path);
   } else {
     update.public_url = null;
   }
 
-  const { error } = await admin
+  const { error } = await auth.client
     .from("submissions")
     .update(update)
     .eq("id", submissionId);

@@ -1,7 +1,6 @@
 const {
   addSkinMeta,
-  attachSignedPreviewUrls,
-  createAdminClient,
+  attachPublicPreviewUrls,
   getUserFromRequest,
   sendJson,
 } = require("./_lib/supabase");
@@ -16,14 +15,7 @@ module.exports = async function handler(req, res) {
     return sendJson(res, auth.error.status, { error: auth.error.message });
   }
 
-  let admin;
-  try {
-    admin = createAdminClient();
-  } catch (error) {
-    return sendJson(res, 503, { error: error.message });
-  }
-
-  const { data, error } = await admin
+  const { data, error } = await auth.client
     .from("submissions")
     .select("id, skin_id, submitted_discord_name, storage_path, public_url, status, notes, created_at, reviewed_at")
     .eq("submitted_by", auth.user.id)
@@ -35,10 +27,10 @@ module.exports = async function handler(req, res) {
 
   let rows;
   try {
-    const withSkin = await addSkinMeta(admin, data || []);
-    rows = await attachSignedPreviewUrls(admin, withSkin);
-  } catch (error) {
-    return sendJson(res, 500, { error: error.message });
+    const withSkin = await addSkinMeta(auth.client, data || []);
+    rows = attachPublicPreviewUrls(auth.client, withSkin);
+  } catch (readError) {
+    return sendJson(res, 500, { error: readError.message });
   }
 
   res.setHeader("Cache-Control", "no-store");

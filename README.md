@@ -1,6 +1,6 @@
 # Ghosts of Tabor Skin Gallery
 
-This repo now supports a static Vercel deployment with backend-capable pieces layered in through Vercel API routes and Supabase. The public gallery stays lightweight, while Discord login, uploads, moderation, and approved preview delivery are handled through Supabase Auth, Storage, and server-side routes.
+This repo supports a static Vercel deployment with Supabase-backed login, uploads, moderation, and approved community previews. The public gallery stays lightweight, while Discord auth and the moderation flow are layered in without redesigning the existing UI.
 
 ## Stack
 
@@ -50,6 +50,6 @@ At a high level:
 
 ## Notes
 
-- Until Supabase env vars are configured, the gallery falls back to bundled repo previews so the site still deploys cleanly.
+- Until `SUPABASE_URL` and `SUPABASE_ANON_KEY` are configured, the gallery falls back to bundled repo previews so the site still deploys cleanly.
 - Once Supabase is configured, the public preview list comes from approved database records instead of the old static preview list.
-- The `previews` storage bucket is private; public approved images are served through a Vercel API route rather than exposing pending storage paths directly.
+- The public gallery no longer depends on a service-role secret just to load approved previews.

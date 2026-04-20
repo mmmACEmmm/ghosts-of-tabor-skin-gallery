@@ -1,6 +1,6 @@
 # Supabase Setup
 
-Run the app on Vercel with the `Other` preset and no build command. The frontend stays static, and the moderation/public-preview logic lives in Vercel API routes.
+Run the app on Vercel with the `Other` preset and no build command. The frontend stays static, and the moderation/public-preview logic lives in Vercel API routes plus Supabase Auth and Storage.
 
 ## 1. Create Supabase + Discord auth
 
@@ -19,8 +19,11 @@ Run [schema.sql](/C:/Users/acest/Downloads/wiki%20test%20page/supabase/schema.sq
 - `submissions`
 - `admin_users`
 - `approved_previews`
-- a private `previews` storage bucket
+- a `previews` storage bucket
 - RLS and storage policies for user uploads and admin moderation
+- explicit grants so the public gallery can read only the approved view
+
+This version uses the simpler public-approved-preview flow: uploads still land under `pending/<user-id>/...`, and the public site only reads approved rows from the database.
 
 ## 3. Seed the current skin archive
 
@@ -59,16 +62,15 @@ Add these project env vars in Vercel:
 ```text
 SUPABASE_URL=your_supabase_project_url
 SUPABASE_ANON_KEY=your_supabase_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 ```
 
-`SUPABASE_SERVICE_ROLE_KEY` is only used in Vercel API routes. Never expose it client-side.
+The current implementation does not require `SUPABASE_SERVICE_ROLE_KEY`, which makes deployment simpler and avoids depending on a server-side secret for the public gallery.
 
 ## 6. Deploy behavior
 
-- `/` shows public approved previews only once Supabase is configured.
+- `/` shows approved previews from Supabase once the public env vars are configured.
 - Until then, the gallery falls back to bundled repo previews so the site still works during setup.
 - `/submit` uploads to `previews/pending/<user-id>/...`
 - `/my-submissions` shows the user's own rows
 - `/admin` reads pending rows and reviews them through `/api/admin/review`
-- Public approved images are served through `/api/previews?submissionId=...`, so the raw pending storage paths stay private.
+- Approved uploads store a `public_url`, and the public gallery reads only approved database rows rather than scanning the storage bucket directly

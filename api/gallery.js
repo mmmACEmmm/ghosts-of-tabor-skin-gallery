@@ -1,5 +1,6 @@
 const {
-  createAdminClient,
+  createAnonClient,
+  getPublicPreviewUrl,
   sendJson,
 } = require("./_lib/supabase");
 
@@ -8,9 +9,9 @@ module.exports = async function handler(req, res) {
     return sendJson(res, 405, { error: "Method not allowed." });
   }
 
-  let admin;
+  let anon;
   try {
-    admin = createAdminClient();
+    anon = createAnonClient();
   } catch (error) {
     return sendJson(res, 200, {
       configured: false,
@@ -19,7 +20,7 @@ module.exports = async function handler(req, res) {
     });
   }
 
-  const { data, error } = await admin
+  const { data, error } = await anon
     .from("approved_previews")
     .select("*")
     .order("created_at", { ascending: false });
@@ -30,7 +31,7 @@ module.exports = async function handler(req, res) {
 
   const rows = (data || []).map((row) => ({
     ...row,
-    public_url: row.public_url || `/api/previews?submissionId=${encodeURIComponent(row.id)}`,
+    public_url: row.public_url || getPublicPreviewUrl(anon, row.storage_path),
   }));
 
   res.setHeader("Cache-Control", "no-store");
