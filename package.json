@@ -1,0 +1,12 @@
+{
+  "name": "ghosts-of-tabor-skin-gallery",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Static Ghosts of Tabor skin gallery with Supabase auth, uploads, and moderation.",
+  "scripts": {
+    "build-data": "powershell -ExecutionPolicy Bypass -File ./build-data.ps1"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.57.4"
+  }
+}

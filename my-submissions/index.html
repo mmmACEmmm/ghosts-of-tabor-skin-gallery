@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Submissions | Ghosts of Tabor Skin Gallery</title>
+  <link rel="stylesheet" href="/styles.css?v=20260419b">
+</head>
+<body>
+  <main class="page-shell page-shell-narrow">
+    <header class="site-header panel-card">
+      <div class="site-header-copy">
+        <p class="eyebrow">MY SUBMISSIONS</p>
+        <h1>Track your pending and approved previews</h1>
+        <p class="panel-copy">See exactly what is waiting for review, approved, or rejected.</p>
+      </div>
+
+      <div class="site-header-nav">
+        <nav class="nav-links" aria-label="Primary">
+          <a href="/" class="nav-link" data-nav-link>Gallery</a>
+          <a href="/submit" class="nav-link" data-nav-link data-auth="submit">Submit</a>
+          <a href="/my-submissions" class="nav-link" data-nav-link data-auth="my-submissions">My Submissions</a>
+          <a href="/admin" class="nav-link" data-nav-link data-auth="admin">Admin</a>
+          <a href="/login" class="nav-link nav-link-strong" data-nav-link data-auth="login">Login with Discord</a>
+          <button class="nav-link nav-button" type="button" data-auth="logout" hidden>Log out</button>
+        </nav>
+
+        <p class="session-label" data-session-label>Browsing publicly.</p>
+      </div>
+    </header>
+
+    <section class="panel-card content-panel">
+      <div class="content-panel-header">
+        <div>
+          <p class="eyebrow">STATUS</p>
+          <h2>Your moderation queue</h2>
+        </div>
+
+        <button id="mySubmissionsLoginButton" class="action-link action-link-button" type="button">Login with Discord</button>
+      </div>
+
+      <p class="inline-message" id="mySubmissionsStatus" hidden></p>
+      <div class="submission-list" id="submissionList"></div>
+    </section>
+  </main>
+
+  <script src="/api/config.js"></script>
+  <script type="module" src="/assets/js/my-submissions-page.js"></script>
+</body>
+</html>

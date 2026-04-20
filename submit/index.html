@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit | Ghosts of Tabor Skin Gallery</title>
+  <link rel="stylesheet" href="/styles.css?v=20260419b">
+</head>
+<body>
+  <main class="page-shell page-shell-narrow">
+    <header class="site-header panel-card">
+      <div class="site-header-copy">
+        <p class="eyebrow">SUBMIT PREVIEW</p>
+        <h1>Upload a community preview</h1>
+        <p class="panel-copy">Your image is stored as a pending submission until an admin approves it.</p>
+      </div>
+
+      <div class="site-header-nav">
+        <nav class="nav-links" aria-label="Primary">
+          <a href="/" class="nav-link" data-nav-link>Gallery</a>
+          <a href="/submit" class="nav-link" data-nav-link data-auth="submit">Submit</a>
+          <a href="/my-submissions" class="nav-link" data-nav-link data-auth="my-submissions">My Submissions</a>
+          <a href="/admin" class="nav-link" data-nav-link data-auth="admin">Admin</a>
+          <a href="/login" class="nav-link nav-link-strong" data-nav-link data-auth="login">Login with Discord</a>
+          <button class="nav-link nav-button" type="button" data-auth="logout" hidden>Log out</button>
+        </nav>
+
+        <p class="session-label" data-session-label>Browsing publicly.</p>
+      </div>
+    </header>
+
+    <section class="panel-card content-panel" id="submitAuthGate">
+      <p class="eyebrow">AUTH REQUIRED</p>
+      <h2>Discord login needed</h2>
+      <p class="guide-text">Sign in first, then you can choose a skin and upload one preview image.</p>
+      <button id="submitLoginButton" class="action-link action-link-button" type="button">Login with Discord</button>
+    </section>
+
+    <section class="panel-card content-panel" id="submitFormShell" hidden>
+      <div class="content-panel-header">
+        <div>
+          <p class="eyebrow">UPLOAD</p>
+          <h2>Pending moderation queue</h2>
+          <p class="guide-text">Logged in as <strong id="currentUserLabel">Discord user</strong>.</p>
+        </div>
+      </div>
+
+      <form id="submitForm" class="stack-form">
+        <label class="field">
+          <span>Skin Pack</span>
+          <select id="skinSelect" required>
+            <option value="">Loading skins...</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Preview Image</span>
+          <input id="previewFile" type="file" accept="image/png,image/jpeg,image/webp" required>
+        </label>
+
+        <p class="field-help">Accepted formats: PNG, JPG, JPEG, and WEBP.</p>
+
+        <div class="stack-actions">
+          <button id="submitButton" class="action-link action-link-button" type="submit">Submit Preview</button>
+          <a class="action-link action-link-secondary" href="/my-submissions">View My Submissions</a>
+        </div>
+      </form>
+    </section>
+
+    <p class="inline-message" id="submitStatus" hidden></p>
+  </main>
+
+  <script src="/api/config.js"></script>
+  <script type="module" src="/assets/js/submit-page.js"></script>
+</body>
+</html>

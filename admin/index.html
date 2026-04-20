@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin | Ghosts of Tabor Skin Gallery</title>
+  <link rel="stylesheet" href="/styles.css?v=20260419b">
+</head>
+<body>
+  <main class="page-shell page-shell-narrow">
+    <header class="site-header panel-card">
+      <div class="site-header-copy">
+        <p class="eyebrow">MODERATION</p>
+        <h1>Review pending submissions</h1>
+        <p class="panel-copy">Only Discord accounts on the admin allowlist can approve or reject uploads.</p>
+      </div>
+
+      <div class="site-header-nav">
+        <nav class="nav-links" aria-label="Primary">
+          <a href="/" class="nav-link" data-nav-link>Gallery</a>
+          <a href="/submit" class="nav-link" data-nav-link data-auth="submit">Submit</a>
+          <a href="/my-submissions" class="nav-link" data-nav-link data-auth="my-submissions">My Submissions</a>
+          <a href="/admin" class="nav-link" data-nav-link data-auth="admin">Admin</a>
+          <a href="/login" class="nav-link nav-link-strong" data-nav-link data-auth="login">Login with Discord</a>
+          <button class="nav-link nav-button" type="button" data-auth="logout" hidden>Log out</button>
+        </nav>
+
+        <p class="session-label" data-session-label>Browsing publicly.</p>
+      </div>
+    </header>
+
+    <section class="panel-card content-panel">
+      <div class="content-panel-header">
+        <div>
+          <p class="eyebrow">QUEUE</p>
+          <h2>Pending approvals</h2>
+        </div>
+
+        <button id="adminLoginButton" class="action-link action-link-button" type="button">Login with Discord</button>
+      </div>
+
+      <p class="inline-message" id="adminStatus" hidden></p>
+      <div class="submission-list" id="adminSubmissionList"></div>
+    </section>
+  </main>
+
+  <script src="/api/config.js"></script>
+  <script type="module" src="/assets/js/admin-page.js"></script>
+</body>
+</html>
