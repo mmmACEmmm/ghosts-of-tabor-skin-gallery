@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Submit | Ghosts of Tabor Skin Gallery</title>
-  <link rel="stylesheet" href="/styles.css?v=20260420b">
+  <title>Submit Preview | Taboreo</title>
+  <link rel="stylesheet" href="/styles.css?v=20260420c">
 </head>
 <body>
   <main class="page-shell page-shell-narrow">
     <header class="site-header panel-card">
       <div class="site-header-copy">
-        <p class="eyebrow">SUBMIT PREVIEW</p>
+        <p class="eyebrow">TABOREO PREVIEWS</p>
         <h1>Upload a community preview</h1>
         <p class="panel-copy">Your image is stored as a pending submission until an admin approves it.</p>
       </div>
@@ -18,8 +18,10 @@
       <div class="site-header-nav">
         <nav class="nav-links" aria-label="Primary">
           <a href="/" class="nav-link" data-nav-link>Gallery</a>
+          <a href="/market" class="nav-link" data-nav-link>Market</a>
           <a href="/submit" class="nav-link" data-nav-link data-auth="submit" hidden>Submit</a>
           <a href="/my-submissions" class="nav-link" data-nav-link data-auth="my-submissions" hidden>My Submissions</a>
+          <a href="/my-trades" class="nav-link" data-nav-link data-auth="my-trades" hidden>My Trades</a>
           <a href="/admin" class="nav-link" data-nav-link data-auth="admin" hidden>Admin</a>
           <a href="/login" class="nav-link nav-link-strong" data-nav-link data-auth="login">Login with Discord</a>
           <button class="nav-link nav-button" type="button" data-auth="logout" hidden>Log out</button>
@@ -79,9 +81,24 @@
     </section>
 
     <p class="inline-message" id="submitStatus" hidden></p>
+
+    <footer class="site-footer panel-card">
+      <div class="site-footer-copy">
+        <p class="eyebrow">TABOREO</p>
+        <p class="footer-title">Made by Operational Raid Brigade (ORB).</p>
+        <p class="footer-copy">Approved previews help keep the public gallery accurate for everybody.</p>
+      </div>
+
+      <div class="footer-link-grid">
+        <a class="footer-link" href="https://discord.gg/3JmVxsZFpp" target="_blank" rel="noreferrer">Operational Raid Brigade Discord</a>
+        <a class="footer-link" href="https://discord.gg/THtCDg5ZeP" target="_blank" rel="noreferrer">BOA Discord</a>
+        <a class="footer-link" href="https://discord.gg/85mr78mt24" target="_blank" rel="noreferrer">Ghosts of Tabor Discord</a>
+        <a class="footer-link" href="/privacy">Privacy Policy</a>
+      </div>
+    </footer>
   </main>
 
   <script src="/api/config.js"></script>
-  <script type="module" src="/assets/js/submit-page.js?v=20260420a"></script>
+  <script type="module" src="/assets/js/submit-page.js?v=20260420c"></script>
 </body>
 </html>

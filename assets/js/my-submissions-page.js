@@ -1,5 +1,5 @@
 import { fetchJson } from "/assets/js/api-client.js";
-import { initAppShell } from "/assets/js/app-shell.js?v=20260420a";
+import { initAppShell } from "/assets/js/app-shell.js?v=20260420c";
 import { encodeAssetPath, escapeHtml } from "/assets/js/skin-data.js";
 import {
   getCurrentUser,

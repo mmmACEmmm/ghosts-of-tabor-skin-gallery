@@ -3,23 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login | Ghosts of Tabor Skin Gallery</title>
-  <link rel="stylesheet" href="/styles.css?v=20260420b">
+  <title>Login | Taboreo</title>
+  <link rel="stylesheet" href="/styles.css?v=20260420c">
 </head>
 <body>
   <main class="page-shell page-shell-narrow">
     <header class="site-header panel-card">
       <div class="site-header-copy">
-        <p class="eyebrow">COMMUNITY ARCHIVE</p>
-        <h1>Login with Discord</h1>
-        <p class="panel-copy">Use your Discord account for submissions, status tracking, and admin access.</p>
+        <p class="eyebrow">TABOREO</p>
+        <h1>Sign in with Discord</h1>
+        <p class="panel-copy">Use Discord for gallery submissions, public trade listings, and admin access.</p>
       </div>
 
       <div class="site-header-nav">
         <nav class="nav-links" aria-label="Primary">
           <a href="/" class="nav-link" data-nav-link>Gallery</a>
+          <a href="/market" class="nav-link" data-nav-link>Market</a>
           <a href="/submit" class="nav-link" data-nav-link data-auth="submit" hidden>Submit</a>
           <a href="/my-submissions" class="nav-link" data-nav-link data-auth="my-submissions" hidden>My Submissions</a>
+          <a href="/my-trades" class="nav-link" data-nav-link data-auth="my-trades" hidden>My Trades</a>
           <a href="/admin" class="nav-link" data-nav-link data-auth="admin" hidden>Admin</a>
           <a href="/login" class="nav-link nav-link-strong" data-nav-link data-auth="login">Login with Discord</a>
           <button class="nav-link nav-button" type="button" data-auth="logout" hidden>Log out</button>
@@ -55,9 +57,24 @@
 
       <p class="inline-message" id="loginStatus" hidden></p>
     </section>
+
+    <footer class="site-footer panel-card">
+      <div class="site-footer-copy">
+        <p class="eyebrow">TABOREO</p>
+        <p class="footer-title">Made by Operational Raid Brigade (ORB).</p>
+        <p class="footer-copy">Use Discord to keep submissions and trade listings tied to real players.</p>
+      </div>
+
+      <div class="footer-link-grid">
+        <a class="footer-link" href="https://discord.gg/3JmVxsZFpp" target="_blank" rel="noreferrer">Operational Raid Brigade Discord</a>
+        <a class="footer-link" href="https://discord.gg/THtCDg5ZeP" target="_blank" rel="noreferrer">BOA Discord</a>
+        <a class="footer-link" href="https://discord.gg/85mr78mt24" target="_blank" rel="noreferrer">Ghosts of Tabor Discord</a>
+        <a class="footer-link" href="/privacy">Privacy Policy</a>
+      </div>
+    </footer>
   </main>
 
   <script src="/api/config.js"></script>
-  <script type="module" src="/assets/js/login-page.js?v=20260420a"></script>
+  <script type="module" src="/assets/js/login-page.js?v=20260420c"></script>
 </body>
 </html>

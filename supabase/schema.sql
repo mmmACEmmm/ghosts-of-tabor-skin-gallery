@@ -26,6 +26,29 @@ create table if not exists public.admin_users (
   added_at timestamptz default now() not null
 );
 
+create table if not exists public.trade_listings (
+  id uuid primary key default gen_random_uuid(),
+  created_by uuid not null,
+  created_discord_name text,
+  created_discord_avatar_url text,
+  trader_handle text,
+  listing_type text not null default 'selling' check (listing_type in ('selling', 'buying', 'trading')),
+  item_name text not null,
+  item_type text not null default 'gear',
+  server_type text not null default 'any' check (server_type in ('pvp', 'pve', 'any')),
+  currency text not null default 'korunas',
+  quantity integer not null default 1 check (quantity > 0 and quantity <= 999),
+  asking_price text,
+  description text,
+  thumbnail_path text,
+  thumbnail_url text,
+  status text not null default 'active' check (status in ('active', 'archived', 'closed')),
+  rmt_confirmed boolean not null default false,
+  created_at timestamptz default now() not null,
+  updated_at timestamptz default now() not null,
+  archived_at timestamptz
+);
+
 create or replace view public.approved_previews as
 select
   s.id,
@@ -40,15 +63,42 @@ from public.submissions s
 join public.skins k on k.id = s.skin_id
 where s.status = 'approved';
 
+create or replace view public.active_trade_listings as
+select
+  t.id,
+  t.created_by,
+  t.created_discord_name,
+  t.created_discord_avatar_url,
+  t.trader_handle,
+  t.listing_type,
+  t.item_name,
+  t.item_type,
+  t.server_type,
+  t.currency,
+  t.quantity,
+  t.asking_price,
+  t.description,
+  t.thumbnail_path,
+  t.thumbnail_url,
+  t.status,
+  t.created_at,
+  t.updated_at
+from public.trade_listings t
+where t.status = 'active'
+  and t.rmt_confirmed = true;
+
 grant usage on schema public to anon, authenticated;
 grant select on public.skins to anon, authenticated;
 grant select on public.approved_previews to anon, authenticated;
+grant select on public.active_trade_listings to anon, authenticated;
 grant select, insert, update on public.submissions to authenticated;
+grant select, insert, update on public.trade_listings to authenticated;
 grant select on public.admin_users to authenticated;
 
 alter table public.skins enable row level security;
 alter table public.submissions enable row level security;
 alter table public.admin_users enable row level security;
+alter table public.trade_listings enable row level security;
 
 drop policy if exists "skins are viewable by everyone" on public.skins;
 create policy "skins are viewable by everyone"
@@ -110,6 +160,64 @@ for select
 to authenticated
 using (user_id = auth.uid());
 
+drop policy if exists "users can insert own trade listings" on public.trade_listings;
+create policy "users can insert own trade listings"
+on public.trade_listings
+for insert
+to authenticated
+with check (
+  created_by = auth.uid()
+  and rmt_confirmed = true
+);
+
+drop policy if exists "users can view own trade listings" on public.trade_listings;
+create policy "users can view own trade listings"
+on public.trade_listings
+for select
+to authenticated
+using (created_by = auth.uid());
+
+drop policy if exists "users can update own trade listings" on public.trade_listings;
+create policy "users can update own trade listings"
+on public.trade_listings
+for update
+to authenticated
+using (created_by = auth.uid())
+with check (created_by = auth.uid());
+
+drop policy if exists "admins can read all trade listings" on public.trade_listings;
+create policy "admins can read all trade listings"
+on public.trade_listings
+for select
+to authenticated
+using (
+  exists (
+    select 1
+    from public.admin_users a
+    where a.user_id = auth.uid()
+  )
+);
+
+drop policy if exists "admins can update all trade listings" on public.trade_listings;
+create policy "admins can update all trade listings"
+on public.trade_listings
+for update
+to authenticated
+using (
+  exists (
+    select 1
+    from public.admin_users a
+    where a.user_id = auth.uid()
+  )
+)
+with check (
+  exists (
+    select 1
+    from public.admin_users a
+    where a.user_id = auth.uid()
+  )
+);
+
 insert into storage.buckets (id, name, public)
 values ('previews', 'previews', true)
 on conflict (id) do update
@@ -134,5 +242,27 @@ to authenticated
 using (
   bucket_id = 'previews'
   and (storage.foldername(name))[1] = 'pending'
+  and (storage.foldername(name))[2] = auth.uid()::text
+);
+
+drop policy if exists "users can upload own trade thumbnails" on storage.objects;
+create policy "users can upload own trade thumbnails"
+on storage.objects
+for insert
+to authenticated
+with check (
+  bucket_id = 'previews'
+  and (storage.foldername(name))[1] = 'trades'
+  and (storage.foldername(name))[2] = auth.uid()::text
+);
+
+drop policy if exists "users can delete own trade thumbnails" on storage.objects;
+create policy "users can delete own trade thumbnails"
+on storage.objects
+for delete
+to authenticated
+using (
+  bucket_id = 'previews'
+  and (storage.foldername(name))[1] = 'trades'
   and (storage.foldername(name))[2] = auth.uid()::text
 );

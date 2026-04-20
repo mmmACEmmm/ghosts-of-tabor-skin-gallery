@@ -93,6 +93,10 @@ function applyNavState(state) {
     node.hidden = !state.user;
   });
 
+  document.querySelectorAll("[data-auth='my-trades']").forEach((node) => {
+    node.hidden = !state.user;
+  });
+
   document.querySelectorAll("[data-auth='admin']").forEach((node) => {
     node.hidden = !state.user || !state.isAdmin;
   });

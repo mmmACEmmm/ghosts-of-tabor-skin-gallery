@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Listing | Taboreo</title>
+  <meta
+    name="description"
+    content="Create a public Ghosts of Tabor trade listing on Taboreo."
+  >
+  <link rel="stylesheet" href="/styles.css?v=20260420c">
+</head>
+<body>
+  <main class="page-shell page-shell-narrow">
+    <header class="site-header panel-card">
+      <div class="site-header-copy">
+        <p class="eyebrow">TABOREO MARKET</p>
+        <h1>Create a public listing</h1>
+        <p class="panel-copy">Post what you want to buy, sell, or trade and keep every listing in-game only.</p>
+      </div>
+
+      <div class="site-header-nav">
+        <nav class="nav-links" aria-label="Primary">
+          <a href="/" class="nav-link" data-nav-link>Gallery</a>
+          <a href="/market" class="nav-link" data-nav-link>Market</a>
+          <a href="/submit" class="nav-link" data-nav-link data-auth="submit" hidden>Submit</a>
+          <a href="/my-submissions" class="nav-link" data-nav-link data-auth="my-submissions" hidden>My Submissions</a>
+          <a href="/my-trades" class="nav-link" data-nav-link data-auth="my-trades" hidden>My Trades</a>
+          <a href="/admin" class="nav-link" data-nav-link data-auth="admin" hidden>Admin</a>
+          <a href="/login" class="nav-link nav-link-strong" data-nav-link data-auth="login">Login with Discord</a>
+          <button class="nav-link nav-button" type="button" data-auth="logout" hidden>Log out</button>
+        </nav>
+
+        <div class="account-summary">
+          <div class="user-card" data-user-card hidden>
+            <div class="user-avatar-shell">
+              <img class="user-avatar" data-user-avatar hidden alt="">
+              <span class="user-avatar-initial" data-user-initial hidden></span>
+            </div>
+            <div class="user-meta">
+              <p class="user-name" data-user-name></p>
+              <p class="user-role" data-user-role hidden></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="panel-card content-panel" id="marketAuthGate">
+      <p class="eyebrow">AUTH REQUIRED</p>
+      <h2>Discord login needed</h2>
+      <p class="guide-text">Sign in first, then you can create a public listing in the market.</p>
+      <button id="marketLoginButton" class="action-link action-link-button" type="button">Login with Discord</button>
+    </section>
+
+    <section class="panel-card content-panel" id="marketCreateShell" hidden>
+      <div class="content-panel-header">
+        <div>
+          <p class="eyebrow">NEW LISTING</p>
+          <h2>Log a new trade</h2>
+          <p class="guide-text">Posting as <strong id="traderIdentity">Discord user</strong>.</p>
+        </div>
+      </div>
+
+      <form id="marketCreateForm" class="stack-form trade-form">
+        <input id="tradeTypeValue" type="hidden" value="selling">
+        <input id="serverTypeValue" type="hidden" value="pvp">
+
+        <div class="field">
+          <span>Trade Type</span>
+          <div class="segmented-group" id="tradeTypeButtons" data-target="tradeTypeValue">
+            <button class="segmented-button" type="button" data-value="selling">Selling</button>
+            <button class="segmented-button" type="button" data-value="buying">Buying</button>
+            <button class="segmented-button" type="button" data-value="trading">Trading</button>
+          </div>
+        </div>
+
+        <div class="trade-form-grid">
+          <label class="field">
+            <span>Item Name</span>
+            <input id="itemName" type="text" placeholder="E.g. Purple Keycard" required>
+          </label>
+
+          <label class="field">
+            <span>Trader Tag / In-Game Name</span>
+            <input id="traderHandle" type="text" placeholder="Optional display name">
+          </label>
+
+          <label class="field">
+            <span>Stock</span>
+            <input id="tradeQuantity" type="number" min="1" max="999" value="1" required>
+          </label>
+
+          <label class="field">
+            <span>Currency</span>
+            <select id="tradeCurrency"></select>
+          </label>
+
+          <label class="field">
+            <span>Item Type</span>
+            <select id="itemType"></select>
+          </label>
+
+          <label class="field">
+            <span>Asking / Offering</span>
+            <input id="askingPrice" type="text" placeholder="E.g. 40,000 Korunas or 1 GPU + cash">
+          </label>
+        </div>
+
+        <div class="field">
+          <span>Server Type</span>
+          <div class="segmented-group" id="serverTypeButtons" data-target="serverTypeValue">
+            <button class="segmented-button" type="button" data-value="pvp">PvP</button>
+            <button class="segmented-button" type="button" data-value="pve">PvE</button>
+            <button class="segmented-button" type="button" data-value="any">Any</button>
+          </div>
+        </div>
+
+        <label class="field textarea-field">
+          <span>Description / Offering</span>
+          <textarea id="tradeDescription" rows="6" placeholder="E.g. Trading 2 purple keycards for 1 GPU and 50k Korunas."></textarea>
+        </label>
+
+        <label class="field">
+          <span>Thumbnail (Optional, Max 2MB)</span>
+          <input id="tradeThumbnail" type="file" accept="image/png,image/jpeg,image/webp">
+        </label>
+
+        <div class="policy-card">
+          <p class="policy-title">Strict RMT Policy</p>
+          <p class="guide-text">
+            Real money trading is not allowed here. Listings must be limited to in-game items and
+            in-game Korunas only.
+          </p>
+
+          <label class="checkbox-row">
+            <input id="rmtConfirm" type="checkbox" required>
+            <span>I confirm this listing only involves in-game items and in-game Korunas.</span>
+          </label>
+        </div>
+
+        <div class="stack-actions">
+          <button id="postTradeButton" class="action-link action-link-button" type="submit">Post Trade Listing</button>
+          <a class="action-link action-link-secondary" href="/my-trades">View My Trades</a>
+        </div>
+      </form>
+    </section>
+
+    <p class="inline-message" id="marketCreateStatus" hidden></p>
+
+    <footer class="site-footer panel-card">
+      <div class="site-footer-copy">
+        <p class="eyebrow">TABOREO</p>
+        <p class="footer-title">Made by Operational Raid Brigade (ORB).</p>
+        <p class="footer-copy">Use the ORB Discord to coordinate safely after you publish a listing.</p>
+      </div>
+
+      <div class="footer-link-grid">
+        <a class="footer-link" href="https://discord.gg/3JmVxsZFpp" target="_blank" rel="noreferrer">Operational Raid Brigade Discord</a>
+        <a class="footer-link" href="https://discord.gg/THtCDg5ZeP" target="_blank" rel="noreferrer">BOA Discord</a>
+        <a class="footer-link" href="https://discord.gg/85mr78mt24" target="_blank" rel="noreferrer">Ghosts of Tabor Discord</a>
+        <a class="footer-link" href="/privacy">Privacy Policy</a>
+      </div>
+    </footer>
+  </main>
+
+  <script src="/api/config.js"></script>
+  <script type="module" src="/assets/js/market-new-page.js?v=20260420c"></script>
+</body>
+</html>

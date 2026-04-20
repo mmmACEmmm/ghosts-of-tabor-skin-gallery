@@ -130,12 +130,16 @@ async function addSkinMeta(client, submissions) {
 }
 
 function getPublicPreviewUrl(client, storagePath) {
+  return getPublicStorageUrl(client, storagePath, "previews");
+}
+
+function getPublicStorageUrl(client, storagePath, bucket = "previews") {
   if (!storagePath || String(storagePath).startsWith("legacy:")) {
     return null;
   }
 
   const { data } = client.storage
-    .from("previews")
+    .from(bucket)
     .getPublicUrl(storagePath);
 
   return data?.publicUrl || null;
@@ -145,6 +149,13 @@ function attachPublicPreviewUrls(client, submissions) {
   return (submissions || []).map((row) => ({
     ...row,
     preview_url: row.public_url || getPublicPreviewUrl(client, row.storage_path),
+  }));
+}
+
+function attachPublicTradeThumbnailUrls(client, listings) {
+  return (listings || []).map((row) => ({
+    ...row,
+    thumbnail_url: row.thumbnail_url || getPublicStorageUrl(client, row.thumbnail_path, "previews"),
   }));
 }
 
@@ -186,11 +197,13 @@ async function getJsonBody(req) {
 
 module.exports = {
   addSkinMeta,
+  attachPublicTradeThumbnailUrls,
   attachPublicPreviewUrls,
   createAnonClient,
   createUserClient,
   getJsonBody,
   getPublicPreviewUrl,
+  getPublicStorageUrl,
   getRequiredEnv,
   getSubmission,
   getUserFromRequest,

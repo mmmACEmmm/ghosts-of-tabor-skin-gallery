@@ -3,16 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Submissions | Taboreo</title>
+  <title>My Trades | Taboreo</title>
+  <meta
+    name="description"
+    content="Manage your public Ghosts of Tabor trade listings on Taboreo."
+  >
   <link rel="stylesheet" href="/styles.css?v=20260420c">
 </head>
 <body>
   <main class="page-shell page-shell-narrow">
     <header class="site-header panel-card">
       <div class="site-header-copy">
-        <p class="eyebrow">TABOREO PREVIEWS</p>
-        <h1>Track your pending and approved previews</h1>
-        <p class="panel-copy">See exactly what is waiting for review, approved, or rejected.</p>
+        <p class="eyebrow">TABOREO MARKET</p>
+        <h1>Manage your listings</h1>
+        <p class="panel-copy">Archive, relist, or close your public trades without losing the history.</p>
       </div>
 
       <div class="site-header-nav">
@@ -35,7 +39,7 @@
             </div>
             <div class="user-meta">
               <p class="user-name" data-user-name></p>
-              <p class="user-role" data-user-role></p>
+              <p class="user-role" data-user-role hidden></p>
             </div>
           </div>
         </div>
@@ -45,22 +49,25 @@
     <section class="panel-card content-panel">
       <div class="content-panel-header">
         <div>
-          <p class="eyebrow">STATUS</p>
-          <h2>Your moderation queue</h2>
+          <p class="eyebrow">MY TRADES</p>
+          <h2>Listing history</h2>
         </div>
 
-        <button id="mySubmissionsLoginButton" class="action-link action-link-button" type="button">Login with Discord</button>
+        <div class="stack-actions">
+          <button id="myTradesLoginButton" class="action-link action-link-button" type="button">Login with Discord</button>
+          <a class="action-link action-link-secondary" href="/market/new">Create Listing</a>
+        </div>
       </div>
 
-      <p class="inline-message" id="mySubmissionsStatus" hidden></p>
-      <div class="submission-list" id="submissionList"></div>
+      <p class="inline-message" id="myTradesStatus" hidden></p>
+      <div class="trade-list-grid" id="myTradesList"></div>
     </section>
 
     <footer class="site-footer panel-card">
       <div class="site-footer-copy">
         <p class="eyebrow">TABOREO</p>
         <p class="footer-title">Made by Operational Raid Brigade (ORB).</p>
-        <p class="footer-copy">Everything you submit stays tied to your Discord account for moderation.</p>
+        <p class="footer-copy">Manage every listing from one place without reposting it from scratch.</p>
       </div>
 
       <div class="footer-link-grid">
@@ -73,6 +80,6 @@
   </main>
 
   <script src="/api/config.js"></script>
-  <script type="module" src="/assets/js/my-submissions-page.js?v=20260420c"></script>
+  <script type="module" src="/assets/js/my-trades-page.js?v=20260420c"></script>
 </body>
 </html>

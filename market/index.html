@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Market | Taboreo</title>
+  <meta
+    name="description"
+    content="Browse public Ghosts of Tabor trade listings on Taboreo, made by Operational Raid Brigade."
+  >
+  <link rel="stylesheet" href="/styles.css?v=20260420c">
+</head>
+<body>
+  <main class="page-shell">
+    <header class="site-header panel-card">
+      <div class="site-header-copy">
+        <p class="eyebrow">TABOREO MARKET</p>
+        <h1>Public Trade Listings</h1>
+        <p class="panel-copy">
+          Buy, sell, and swap in-game items with other Ghosts of Tabor players. Every listing must
+          stay strictly in-game only.
+        </p>
+      </div>
+
+      <div class="site-header-nav">
+        <nav class="nav-links" aria-label="Primary">
+          <a href="/" class="nav-link" data-nav-link>Gallery</a>
+          <a href="/market" class="nav-link" data-nav-link>Market</a>
+          <a href="/submit" class="nav-link" data-nav-link data-auth="submit" hidden>Submit</a>
+          <a href="/my-submissions" class="nav-link" data-nav-link data-auth="my-submissions" hidden>My Submissions</a>
+          <a href="/my-trades" class="nav-link" data-nav-link data-auth="my-trades" hidden>My Trades</a>
+          <a href="/admin" class="nav-link" data-nav-link data-auth="admin" hidden>Admin</a>
+          <a href="/login" class="nav-link nav-link-strong" data-nav-link data-auth="login">Login with Discord</a>
+          <button class="nav-link nav-button" type="button" data-auth="logout" hidden>Log out</button>
+        </nav>
+
+        <div class="account-summary">
+          <div class="user-card" data-user-card hidden>
+            <div class="user-avatar-shell">
+              <img class="user-avatar" data-user-avatar hidden alt="">
+              <span class="user-avatar-initial" data-user-initial hidden></span>
+            </div>
+            <div class="user-meta">
+              <p class="user-name" data-user-name></p>
+              <p class="user-role" data-user-role hidden></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="market-hero panel-card">
+      <div>
+        <p class="eyebrow">TRADING</p>
+        <h2>Trade through Operational Raid Brigade</h2>
+        <p class="guide-text">
+          Listings are public. Trades should be coordinated through the ORB Discord and must only
+          involve in-game items and in-game Korunas.
+        </p>
+      </div>
+
+      <div class="market-hero-actions">
+        <a class="action-link" href="/market/new">Create Listing</a>
+        <a class="action-link action-link-secondary" href="/my-trades" data-auth="my-trades" hidden>My Trades</a>
+      </div>
+    </section>
+
+    <section class="panel-card market-filter-panel">
+      <div class="toolbar-top">
+        <label class="field search-field">
+          <span>Search the market</span>
+          <input id="marketSearch" type="search" placeholder="Try: GPU, purple keycard, AK Alpha..." autocomplete="off">
+        </label>
+
+        <label class="field sort-field">
+          <span>Trade Type</span>
+          <select id="tradeTypeFilter"></select>
+        </label>
+
+        <label class="field sort-field">
+          <span>Server</span>
+          <select id="serverFilter"></select>
+        </label>
+
+        <label class="field sort-field">
+          <span>Item Type</span>
+          <select id="itemTypeFilter"></select>
+        </label>
+      </div>
+    </section>
+
+    <p class="inline-message" id="marketStatus" hidden></p>
+
+    <section class="market-columns">
+      <article class="market-column">
+        <div class="market-column-header">
+          <h2>Sell Orders</h2>
+          <span class="meta-pill" id="sellCount">0</span>
+        </div>
+        <div class="trade-list-grid" id="sellListings"></div>
+      </article>
+
+      <article class="market-column">
+        <div class="market-column-header">
+          <h2>Buy / Swap Orders</h2>
+          <span class="meta-pill" id="requestCount">0</span>
+        </div>
+        <div class="trade-list-grid" id="requestListings"></div>
+      </article>
+    </section>
+
+    <footer class="site-footer panel-card">
+      <div class="site-footer-copy">
+        <p class="eyebrow">TABOREO</p>
+        <p class="footer-title">Made by Operational Raid Brigade (ORB).</p>
+        <p class="footer-copy">Use ORB to coordinate trades, questions, and market updates.</p>
+      </div>
+
+      <div class="footer-link-grid">
+        <a class="footer-link" href="https://discord.gg/3JmVxsZFpp" target="_blank" rel="noreferrer">Operational Raid Brigade Discord</a>
+        <a class="footer-link" href="https://discord.gg/THtCDg5ZeP" target="_blank" rel="noreferrer">BOA Discord</a>
+        <a class="footer-link" href="https://discord.gg/85mr78mt24" target="_blank" rel="noreferrer">Ghosts of Tabor Discord</a>
+        <a class="footer-link" href="/privacy">Privacy Policy</a>
+      </div>
+    </footer>
+  </main>
+
+  <script src="/api/config.js"></script>
+  <script type="module" src="/assets/js/market-page.js?v=20260420c"></script>
+</body>
+</html>

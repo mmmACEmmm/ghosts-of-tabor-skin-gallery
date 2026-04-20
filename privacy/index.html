@@ -3,16 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Submissions | Taboreo</title>
+  <title>Privacy Policy | Taboreo</title>
+  <meta
+    name="description"
+    content="Privacy policy for Taboreo by Operational Raid Brigade."
+  >
   <link rel="stylesheet" href="/styles.css?v=20260420c">
 </head>
 <body>
   <main class="page-shell page-shell-narrow">
     <header class="site-header panel-card">
       <div class="site-header-copy">
-        <p class="eyebrow">TABOREO PREVIEWS</p>
-        <h1>Track your pending and approved previews</h1>
-        <p class="panel-copy">See exactly what is waiting for review, approved, or rejected.</p>
+        <p class="eyebrow">TABOREO</p>
+        <h1>Privacy Policy</h1>
+        <p class="panel-copy">A plain-language summary of what Taboreo stores and what gets shown publicly.</p>
       </div>
 
       <div class="site-header-nav">
@@ -35,32 +39,54 @@
             </div>
             <div class="user-meta">
               <p class="user-name" data-user-name></p>
-              <p class="user-role" data-user-role></p>
+              <p class="user-role" data-user-role hidden></p>
             </div>
           </div>
         </div>
       </div>
     </header>
 
-    <section class="panel-card content-panel">
-      <div class="content-panel-header">
-        <div>
-          <p class="eyebrow">STATUS</p>
-          <h2>Your moderation queue</h2>
-        </div>
+    <section class="policy-grid">
+      <article class="panel-card guide-panel">
+        <h2>What Taboreo stores</h2>
+        <p class="guide-text">
+          When you sign in, Taboreo uses Discord through Supabase Auth to identify your account.
+          The site may store your Discord display name, avatar, uploaded preview images, trade
+          listing text, and optional trade thumbnails.
+        </p>
+      </article>
 
-        <button id="mySubmissionsLoginButton" class="action-link action-link-button" type="button">Login with Discord</button>
-      </div>
+      <article class="panel-card guide-panel">
+        <h2>What is public</h2>
+        <p class="guide-text">
+          Approved gallery previews are public. Market listings are public by design and may show
+          your Discord display name, optional trader tag, listing details, and thumbnail.
+        </p>
+      </article>
 
-      <p class="inline-message" id="mySubmissionsStatus" hidden></p>
-      <div class="submission-list" id="submissionList"></div>
+      <article class="panel-card guide-panel">
+        <h2>What admins can see</h2>
+        <p class="guide-text">
+          Admin accounts can review preview submissions and moderate site content. They can also
+          review trade listings if needed for safety or rule enforcement.
+        </p>
+      </article>
+
+      <article class="panel-card guide-panel">
+        <h2>Trading rules</h2>
+        <p class="guide-text">
+          Real-money trading is not allowed on Taboreo. Listings must stay limited to in-game items
+          and in-game Korunas. If you post or coordinate a listing, use the Operational Raid
+          Brigade Discord for follow-up.
+        </p>
+      </article>
     </section>
 
     <footer class="site-footer panel-card">
       <div class="site-footer-copy">
         <p class="eyebrow">TABOREO</p>
         <p class="footer-title">Made by Operational Raid Brigade (ORB).</p>
-        <p class="footer-copy">Everything you submit stays tied to your Discord account for moderation.</p>
+        <p class="footer-copy">Questions or concerns can be routed through the ORB Discord.</p>
       </div>
 
       <div class="footer-link-grid">
@@ -73,6 +99,6 @@
   </main>
 
   <script src="/api/config.js"></script>
-  <script type="module" src="/assets/js/my-submissions-page.js?v=20260420c"></script>
+  <script type="module" src="/assets/js/static-page.js?v=20260420c"></script>
 </body>
 </html>

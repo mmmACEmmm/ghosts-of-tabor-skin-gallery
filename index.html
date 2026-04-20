@@ -3,30 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ghosts of Tabor Skin Gallery</title>
+  <title>Taboreo | ORB</title>
   <meta
     name="description"
-    content="Browse Ghosts of Tabor skin packs, approved community previews, and skinning system guides."
+    content="Taboreo by Operational Raid Brigade: Ghosts of Tabor skins, approved community previews, and player trading."
   >
-  <link rel="stylesheet" href="styles.css?v=20260420b">
+  <link rel="stylesheet" href="styles.css?v=20260420c">
 </head>
 <body>
   <main class="page-shell">
     <header class="site-header panel-card">
       <div class="site-header-copy">
-        <p class="eyebrow">COMMUNITY ARCHIVE</p>
-        <h1>Ghosts of Tabor Skin Gallery</h1>
+        <p class="eyebrow">OPERATIONAL RAID BRIGADE</p>
+        <h1>Taboreo</h1>
         <p class="panel-copy">
-          Official skin pack info, approved community previews, and the bunker skinning guide in
-          one place.
+          Made by Operational Raid Brigade. Ghosts of Tabor skins, approved community previews,
+          and player trading in one place.
         </p>
       </div>
 
       <div class="site-header-nav">
         <nav class="nav-links" aria-label="Primary">
           <a href="/" class="nav-link" data-nav-link>Gallery</a>
+          <a href="/market" class="nav-link" data-nav-link>Market</a>
           <a href="/submit" class="nav-link" data-nav-link data-auth="submit" hidden>Submit</a>
           <a href="/my-submissions" class="nav-link" data-nav-link data-auth="my-submissions" hidden>My Submissions</a>
+          <a href="/my-trades" class="nav-link" data-nav-link data-auth="my-trades" hidden>My Trades</a>
           <a href="/admin" class="nav-link" data-nav-link data-auth="admin" hidden>Admin</a>
           <a href="/login" class="nav-link nav-link-strong" data-nav-link data-auth="login">Login with Discord</a>
           <button class="nav-link nav-button" type="button" data-auth="logout" hidden>Log out</button>
@@ -225,6 +227,23 @@
     <section class="gallery-section">
       <div class="card-grid" id="cardGrid"></div>
     </section>
+
+    <footer class="site-footer panel-card">
+      <div class="site-footer-copy">
+        <p class="eyebrow">TABOREO</p>
+        <p class="footer-title">Made by Operational Raid Brigade (ORB).</p>
+        <p class="footer-copy">
+          Community skins, public listings, and Ghosts of Tabor resources in one place.
+        </p>
+      </div>
+
+      <div class="footer-link-grid">
+        <a class="footer-link" href="https://discord.gg/3JmVxsZFpp" target="_blank" rel="noreferrer">Operational Raid Brigade Discord</a>
+        <a class="footer-link" href="https://discord.gg/THtCDg5ZeP" target="_blank" rel="noreferrer">BOA Discord</a>
+        <a class="footer-link" href="https://discord.gg/85mr78mt24" target="_blank" rel="noreferrer">Ghosts of Tabor Discord</a>
+        <a class="footer-link" href="/privacy">Privacy Policy</a>
+      </div>
+    </footer>
   </main>
 
   <div class="modal" id="detailModal" hidden>
@@ -256,6 +275,6 @@
   </div>
 
   <script src="/api/config.js"></script>
-  <script type="module" src="/script.js?v=20260420a"></script>
+  <script type="module" src="/script.js?v=20260420c"></script>
 </body>
 </html>
