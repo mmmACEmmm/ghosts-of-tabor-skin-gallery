@@ -6,6 +6,13 @@ import {
   onAuthStateChange,
 } from "/assets/js/supabase-browser.js";
 
+const shellState = {
+  configured: false,
+  user: null,
+  isAdmin: false,
+  profile: null,
+};
+
 function getDiscordName(user) {
   return (
     user?.user_metadata?.full_name ||
@@ -24,6 +31,30 @@ function getDiscordAvatar(user) {
     user?.identities?.[0]?.identity_data?.avatar_url ||
     ""
   );
+}
+
+async function getTraderProfile(user) {
+  if (!user?.id) {
+    return null;
+  }
+
+  const supabase = getSupabaseClient();
+  if (!supabase) {
+    return null;
+  }
+
+  const { data, error } = await supabase
+    .from("public_trader_profiles")
+    .select("*")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  if (error) {
+    console.warn("Could not resolve trader profile.", error);
+    return null;
+  }
+
+  return data || null;
 }
 
 function getInitials(value) {
@@ -68,9 +99,22 @@ export async function resolveAdminState(user) {
 
 function applyNavState(state) {
   const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
-  const displayName = getDiscordName(state.user);
+  const displayName = state.profile?.display_name || getDiscordName(state.user);
   const avatarUrl = getDiscordAvatar(state.user);
   const initialText = getInitials(displayName);
+  const roleLabels = [];
+
+  if (state.user && state.isAdmin) {
+    roleLabels.push("Admin");
+  }
+
+  if (state.profile?.is_bodyguard) {
+    roleLabels.push("Bodyguard");
+  }
+
+  if (state.profile?.is_boa_verified) {
+    roleLabels.push("BOA Verified");
+  }
 
   document.querySelectorAll("[data-nav-link]").forEach((link) => {
     const target = link.getAttribute("href")?.replace(/\/$/, "") || "/";
@@ -103,6 +147,10 @@ function applyNavState(state) {
 
   document.querySelectorAll("[data-user-card]").forEach((node) => {
     node.hidden = !state.user;
+    node.classList.toggle("is-clickable", Boolean(state.user));
+    node.tabIndex = state.user ? 0 : -1;
+    node.setAttribute("role", state.user ? "link" : "presentation");
+    node.setAttribute("aria-label", state.user ? "Open your profile" : "");
   });
 
   document.querySelectorAll("[data-user-name]").forEach((node) => {
@@ -110,10 +158,11 @@ function applyNavState(state) {
   });
 
   document.querySelectorAll("[data-user-role]").forEach((node) => {
-    const showRole = Boolean(state.user && state.isAdmin);
+    const roleText = roleLabels.join(" · ");
+    const showRole = Boolean(state.user && roleText);
     node.hidden = !showRole;
-    node.textContent = showRole ? "Admin" : "";
-    node.classList.toggle("is-admin", showRole);
+    node.textContent = showRole ? roleText : "";
+    node.classList.toggle("is-admin", Boolean(state.user && state.isAdmin));
   });
 
   document.querySelectorAll("[data-user-avatar]").forEach((node) => {
@@ -135,21 +184,54 @@ function applyNavState(state) {
   });
 }
 
+function openProfileFromShell() {
+  if (!shellState.user) {
+    return;
+  }
+
+  window.location.href = "/profile";
+}
+
+function bindUserCardNavigation() {
+  document.querySelectorAll("[data-user-card]").forEach((node) => {
+    if (node.dataset.profileBound === "true") {
+      return;
+    }
+
+    node.dataset.profileBound = "true";
+    node.addEventListener("click", function () {
+      openProfileFromShell();
+    });
+    node.addEventListener("keydown", function (event) {
+      if (event.key !== "Enter" && event.key !== " ") {
+        return;
+      }
+
+      event.preventDefault();
+      openProfileFromShell();
+    });
+  });
+}
+
 export async function initAppShell() {
   const configured = isSupabaseConfigured();
   let user = null;
   let isAdmin = false;
+  let profile = null;
 
   if (configured) {
     try {
       user = await getCurrentUser();
       isAdmin = await resolveAdminState(user);
+      profile = await getTraderProfile(user);
     } catch (error) {
       console.warn("Could not restore the current session.", error);
     }
   }
 
-  const state = { configured, user, isAdmin };
+  const state = { configured, user, isAdmin, profile };
+  Object.assign(shellState, state);
+  bindUserCardNavigation();
   applyNavState(state);
 
   document.querySelectorAll("[data-auth='logout']").forEach((button) => {
@@ -170,8 +252,10 @@ export async function initAppShell() {
         configured: true,
         user: nextUser,
         isAdmin: await resolveAdminState(nextUser),
+        profile: await getTraderProfile(nextUser),
       };
 
+      Object.assign(shellState, nextState);
       applyNavState(nextState);
     });
   }

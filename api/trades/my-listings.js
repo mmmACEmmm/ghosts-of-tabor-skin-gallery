@@ -1,4 +1,5 @@
 const {
+  attachTraderProfileMeta,
   attachPublicTradeThumbnailUrls,
   getUserFromRequest,
   sendJson,
@@ -25,7 +26,8 @@ module.exports = async function handler(req, res) {
     return sendJson(res, 500, { error: error.message });
   }
 
+  const withProfiles = await attachTraderProfileMeta(client, data || []);
   return sendJson(res, 200, {
-    rows: attachPublicTradeThumbnailUrls(client, data || []),
+    rows: attachPublicTradeThumbnailUrls(client, withProfiles),
   });
 };

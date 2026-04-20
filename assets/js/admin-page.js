@@ -1,5 +1,5 @@
 import { fetchJson } from "/assets/js/api-client.js";
-import { initAppShell, resolveAdminState } from "/assets/js/app-shell.js?v=20260420c";
+import { initAppShell, resolveAdminState } from "/assets/js/app-shell.js?v=20260420d";
 import { encodeAssetPath, escapeHtml } from "/assets/js/skin-data.js";
 import {
   getCurrentUser,
@@ -12,8 +12,8 @@ function byId(id) {
   return document.getElementById(id);
 }
 
-function setMessage(message, tone = "") {
-  const status = byId("adminStatus");
+function setSectionMessage(id, message, tone = "") {
+  const status = byId(id);
   status.hidden = !message;
   status.className = `inline-message${tone ? ` ${tone}` : ""}`;
   status.textContent = message || "";
@@ -79,6 +79,81 @@ function renderRows(rows) {
     .join("");
 }
 
+function getApplicantName(row) {
+  return (
+    row?.profile?.display_name ||
+    row?.profile?.in_game_name ||
+    row?.applicant_user_id ||
+    "Unknown"
+  );
+}
+
+function renderApplicationRows(rows) {
+  const list = byId("adminApplicationsList");
+
+  if (!rows.length) {
+    list.innerHTML = `
+      <div class="empty-state">
+        <p>No pending role requests right now.</p>
+        <p>New Bodyguard or BOA applications will appear here.</p>
+      </div>
+    `;
+    return;
+  }
+
+  list.innerHTML = rows
+    .map((row) => {
+      const badges = [];
+
+      if (row?.profile?.in_game_name) {
+        badges.push(`<span class="profile-badge profile-badge-subtle">IGN: ${escapeHtml(row.profile.in_game_name)}</span>`);
+      }
+
+      if (row?.profile?.is_bodyguard) {
+        badges.push('<span class="profile-badge profile-badge-bodyguard">Bodyguard</span>');
+      }
+
+      if (row?.profile?.is_boa_verified) {
+        badges.push('<span class="profile-badge profile-badge-boa">BOA Verified</span>');
+      }
+
+      if (Number(row?.profile?.total_votes || 0) > 0) {
+        badges.push(
+          `<span class="profile-badge profile-badge-reputation">${escapeHtml(
+            `${Number(row.profile.positive_percent || 0)}% positive`
+          )}</span>`
+        );
+      }
+
+      return `
+        <article class="application-review-card panel-card" data-application-id="${escapeHtml(row.id)}">
+          <div class="application-review-header">
+            <div>
+              <p class="eyebrow eyebrow-muted">${escapeHtml(row.application_type === "boa" ? "BOA Verification" : "Bodyguard Request")}</p>
+              <h2>${escapeHtml(getApplicantName(row))}</h2>
+            </div>
+            <span class="status-pill status-pending">pending</span>
+          </div>
+
+          <div class="profile-badge-row">${badges.join("")}</div>
+          <p class="guide-text">${escapeHtml(formatDate(row.created_at))}</p>
+          <p class="guide-text">${escapeHtml(row.message || "No application note added.")}</p>
+
+          <label class="field textarea-field">
+            <span>Review Notes</span>
+            <textarea rows="3" data-application-notes>${escapeHtml(row.review_notes || "")}</textarea>
+          </label>
+
+          <div class="submission-actions">
+            <button class="action-button" type="button" data-application-action="approved">Approve & Grant</button>
+            <button class="action-button action-button-secondary" type="button" data-application-action="rejected">Reject</button>
+          </div>
+        </article>
+      `;
+    })
+    .join("");
+}
+
 async function loadPendingRows() {
   const response = await fetchJson("/api/admin/pending", {
     authenticated: true,
@@ -87,22 +162,31 @@ async function loadPendingRows() {
   renderRows(response.rows || []);
 }
 
+async function loadApplications() {
+  const response = await fetchJson("/api/admin/applications", {
+    authenticated: true,
+  });
+
+  renderApplicationRows(response.rows || []);
+}
+
 async function init() {
   const shellState = await initAppShell();
   const loginButton = byId("adminLoginButton");
   const list = byId("adminSubmissionList");
+  const applicationList = byId("adminApplicationsList");
 
   loginButton.addEventListener("click", async function () {
     try {
       await loginWithDiscord("/admin");
     } catch (error) {
-      setMessage(error.message, "error");
+      setSectionMessage("adminStatus", error.message, "error");
     }
   });
 
   if (!isSupabaseConfigured()) {
     loginButton.hidden = true;
-    setMessage("Supabase is not configured yet. Finish setup first.", "warning");
+    setSectionMessage("adminStatus", "Supabase is not configured yet. Finish setup first.", "warning");
     return;
   }
 
@@ -114,7 +198,7 @@ async function init() {
       }
     });
 
-    setMessage("Sign in with an allowed Discord account to moderate submissions.", "warning");
+    setSectionMessage("adminStatus", "Sign in with an allowed Discord account to moderate submissions.", "warning");
     return;
   }
 
@@ -122,17 +206,25 @@ async function init() {
 
   const isAdmin = await resolveAdminState(user);
   if (!isAdmin) {
-    setMessage("This Discord account is signed in, but it is not on the admin allowlist.", "warning");
+    setSectionMessage("adminStatus", "This Discord account is signed in, but it is not on the admin allowlist.", "warning");
     return;
   }
 
-  setMessage("Loading pending submissions...");
+  setSectionMessage("adminStatus", "Loading pending submissions...");
+  setSectionMessage("adminApplicationsStatus", "Loading role applications...");
 
   try {
     await loadPendingRows();
-    setMessage("");
+    setSectionMessage("adminStatus", "");
   } catch (error) {
-    setMessage(error.message, "error");
+    setSectionMessage("adminStatus", error.message, "error");
+  }
+
+  try {
+    await loadApplications();
+    setSectionMessage("adminApplicationsStatus", "");
+  } catch (error) {
+    setSectionMessage("adminApplicationsStatus", error.message, "error");
   }
 
   list.addEventListener("click", async function (event) {
@@ -151,7 +243,7 @@ async function init() {
     const action = button.dataset.action;
 
     button.disabled = true;
-    setMessage(`Saving ${action} review...`);
+    setSectionMessage("adminStatus", `Saving ${action} review...`);
 
     try {
       await fetchJson("/api/admin/review", {
@@ -165,10 +257,51 @@ async function init() {
       });
 
       await loadPendingRows();
-      setMessage(`Submission ${action}.`, "success");
+      setSectionMessage("adminStatus", `Submission ${action}.`, "success");
     } catch (error) {
       button.disabled = false;
-      setMessage(error.message, "error");
+      setSectionMessage("adminStatus", error.message, "error");
+    }
+  });
+
+  applicationList.addEventListener("click", async function (event) {
+    const button = event.target.closest("[data-application-action]");
+    if (!button) {
+      return;
+    }
+
+    const card = button.closest("[data-application-id]");
+    if (!card) {
+      return;
+    }
+
+    const applicationId = card.dataset.applicationId;
+    const reviewNotes = card.querySelector("[data-application-notes]")?.value || "";
+    const action = button.dataset.applicationAction;
+
+    button.disabled = true;
+    setSectionMessage("adminApplicationsStatus", `Saving ${action} review...`);
+
+    try {
+      await fetchJson("/api/admin/application-review", {
+        method: "POST",
+        authenticated: true,
+        body: {
+          applicationId,
+          action,
+          reviewNotes,
+        },
+      });
+
+      await loadApplications();
+      setSectionMessage(
+        "adminApplicationsStatus",
+        action === "approved" ? "Application approved and role granted." : "Application rejected.",
+        "success"
+      );
+    } catch (error) {
+      button.disabled = false;
+      setSectionMessage("adminApplicationsStatus", error.message, "error");
     }
   });
 }

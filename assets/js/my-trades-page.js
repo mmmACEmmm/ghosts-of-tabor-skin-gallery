@@ -1,12 +1,12 @@
 import { fetchJson } from "/assets/js/api-client.js";
-import { initAppShell } from "/assets/js/app-shell.js?v=20260420c";
+import { initAppShell } from "/assets/js/app-shell.js?v=20260420d";
 import {
   getCurrentUser,
   isSupabaseConfigured,
   loginWithDiscord,
   onAuthStateChange,
 } from "/assets/js/supabase-browser.js";
-import { renderTradeCard } from "/assets/js/trade-utils.js?v=20260420c";
+import { renderTradeCard } from "/assets/js/trade-utils.js?v=20260420d";
 
 function byId(id) {
   return document.getElementById(id);

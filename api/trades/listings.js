@@ -1,4 +1,5 @@
 const {
+  attachTraderProfileMeta,
   attachPublicTradeThumbnailUrls,
   createAnonClient,
   sendJson,
@@ -31,8 +32,9 @@ module.exports = async function handler(req, res) {
   }
 
   res.setHeader("Cache-Control", "no-store");
+  const withProfiles = await attachTraderProfileMeta(anon, data || []);
   return sendJson(res, 200, {
     configured: true,
-    rows: attachPublicTradeThumbnailUrls(anon, data || []),
+    rows: attachPublicTradeThumbnailUrls(anon, withProfiles),
   });
 };

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile | Taboreo</title>
+  <meta
+    name="description"
+    content="Customize your Taboreo trader profile, manage role applications, and review trader reputation."
+  >
+  <link rel="stylesheet" href="/styles.css?v=20260420d">
+</head>
+<body>
+  <main class="page-shell page-shell-narrow">
+    <header class="site-header panel-card">
+      <div class="site-header-copy">
+        <p class="eyebrow">TABOREO PROFILE</p>
+        <h1>Trader Profile</h1>
+        <p class="panel-copy">Set your public trader identity, show your in-game name, and build trust before deals happen.</p>
+      </div>
+
+      <div class="site-header-nav">
+        <nav class="nav-links" aria-label="Primary">
+          <a href="/" class="nav-link" data-nav-link>Gallery</a>
+          <a href="/market" class="nav-link" data-nav-link>Market</a>
+          <a href="/submit" class="nav-link" data-nav-link data-auth="submit" hidden>Submit</a>
+          <a href="/my-submissions" class="nav-link" data-nav-link data-auth="my-submissions" hidden>My Submissions</a>
+          <a href="/my-trades" class="nav-link" data-nav-link data-auth="my-trades" hidden>My Trades</a>
+          <a href="/admin" class="nav-link" data-nav-link data-auth="admin" hidden>Admin</a>
+          <a href="/login" class="nav-link nav-link-strong" data-nav-link data-auth="login">Login with Discord</a>
+          <button class="nav-link nav-button" type="button" data-auth="logout" hidden>Log out</button>
+        </nav>
+
+        <div class="account-summary">
+          <div class="user-card" data-user-card hidden>
+            <div class="user-avatar-shell">
+              <img class="user-avatar" data-user-avatar hidden alt="">
+              <span class="user-avatar-initial" data-user-initial hidden></span>
+            </div>
+            <div class="user-meta">
+              <p class="user-name" data-user-name></p>
+              <p class="user-role" data-user-role hidden></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="panel-card profile-hero">
+      <div class="profile-hero-main">
+        <div class="profile-avatar-large-shell" id="profileAvatarShell">
+          <img class="profile-avatar-large" id="profileAvatarImage" hidden alt="">
+          <span class="profile-avatar-large-initial" id="profileAvatarInitial">?</span>
+        </div>
+
+        <div class="profile-hero-copy">
+          <p class="eyebrow">ACCOUNT STATUS</p>
+          <h2 id="profileDisplayName">Trader Profile</h2>
+          <p class="panel-copy" id="profileSubline">Load a trader profile to see account status, bio, and recent listings.</p>
+          <div class="profile-badge-row" id="profileBadgeRow"></div>
+        </div>
+      </div>
+
+      <div class="profile-hero-actions">
+        <button id="profileLoginButton" class="action-link action-link-button" type="button">Login with Discord</button>
+        <a class="action-link action-link-secondary" href="/market/new" data-auth="my-trades" hidden>Create Listing</a>
+      </div>
+    </section>
+
+    <p class="inline-message" id="profileStatus" hidden></p>
+
+    <section class="profile-grid">
+      <article class="panel-card content-panel">
+        <div class="content-panel-header">
+          <div>
+            <p class="eyebrow">REPUTATION</p>
+            <h2>Trade trust</h2>
+          </div>
+        </div>
+
+        <div class="profile-stat-grid">
+          <div class="profile-stat-card">
+            <p class="profile-stat-value" id="profilePositivePercent">0%</p>
+            <p class="profile-stat-label">Positive rating</p>
+          </div>
+          <div class="profile-stat-card">
+            <p class="profile-stat-value" id="profileUpvotes">0</p>
+            <p class="profile-stat-label">Thumbs up</p>
+          </div>
+          <div class="profile-stat-card">
+            <p class="profile-stat-value" id="profileDownvotes">0</p>
+            <p class="profile-stat-label">Thumbs down</p>
+          </div>
+        </div>
+
+        <div class="profile-vote-panel">
+          <p class="guide-text" id="profileVoteSummary">No ratings yet. Early trades will set the tone.</p>
+          <div class="profile-vote-actions" id="profileVoteActions" hidden>
+            <button class="action-button vote-button" type="button" data-vote-button="1">Thumbs Up</button>
+            <button class="action-button action-button-secondary vote-button vote-button-negative" type="button" data-vote-button="-1">Thumbs Down</button>
+          </div>
+        </div>
+
+        <div class="profile-bio-panel">
+          <p class="eyebrow eyebrow-muted">BIO</p>
+          <p class="guide-text profile-bio-copy" id="profileBioCopy">No bio has been added yet.</p>
+        </div>
+      </article>
+
+      <article class="panel-card content-panel" id="profileEditorCard" hidden>
+        <div class="content-panel-header">
+          <div>
+            <p class="eyebrow">EDIT PROFILE</p>
+            <h2>Public profile details</h2>
+          </div>
+        </div>
+
+        <form class="stack-form" id="profileForm">
+          <label class="field">
+            <span>Display Name</span>
+            <input id="profileDisplayNameInput" name="displayName" type="text" maxlength="40" placeholder="How other traders should know you">
+          </label>
+
+          <label class="field">
+            <span>In-Game Name</span>
+            <input id="profileInGameNameInput" name="inGameName" type="text" maxlength="40" placeholder="Exact raid / trader screen name">
+          </label>
+
+          <label class="field textarea-field">
+            <span>Bio</span>
+            <textarea id="profileBioInput" name="bio" rows="6" maxlength="600" placeholder="Tell people what you trade, how you like to coordinate, or what they should expect."></textarea>
+          </label>
+
+          <div class="stack-actions">
+            <button class="action-button" type="submit">Save Profile</button>
+          </div>
+        </form>
+      </article>
+    </section>
+
+    <section class="profile-grid profile-grid-secondary">
+      <article class="panel-card content-panel" id="profileApplicationsCard" hidden>
+        <div class="content-panel-header">
+          <div>
+            <p class="eyebrow">APPLICATIONS</p>
+            <h2>Role requests</h2>
+          </div>
+        </div>
+
+        <form class="stack-form" id="applicationForm">
+          <label class="field">
+            <span>Apply For</span>
+            <select id="applicationTypeInput" name="applicationType">
+              <option value="bodyguard">Bodyguard</option>
+              <option value="boa">BOA Verification</option>
+            </select>
+          </label>
+
+          <label class="field textarea-field">
+            <span>Application Message</span>
+            <textarea id="applicationMessageInput" name="message" rows="6" maxlength="1200" placeholder="Explain why you should be approved, what role you already hold, and how people can vouch for you."></textarea>
+          </label>
+
+          <div class="stack-actions">
+            <button class="action-button" id="applicationSubmitButton" type="submit">Send Application</button>
+          </div>
+        </form>
+
+        <div class="application-history" id="applicationHistory"></div>
+      </article>
+
+      <article class="panel-card content-panel">
+        <div class="content-panel-header">
+          <div>
+            <p class="eyebrow">RECENT LISTINGS</p>
+            <h2>Active market posts</h2>
+          </div>
+        </div>
+
+        <div class="trade-list-grid" id="profileListings"></div>
+      </article>
+    </section>
+
+    <footer class="site-footer panel-card">
+      <div class="site-footer-copy">
+        <p class="eyebrow">TABOREO</p>
+        <p class="footer-title">Made by Operational Raid Brigade (ORB).</p>
+        <p class="footer-copy">Profiles help ORB traders show who they are before they ever start a deal.</p>
+      </div>
+
+      <div class="footer-link-grid">
+        <a class="footer-link" href="https://discord.gg/3JmVxsZFpp" target="_blank" rel="noreferrer">Operational Raid Brigade Discord</a>
+        <a class="footer-link" href="https://discord.gg/THtCDg5ZeP" target="_blank" rel="noreferrer">BOA Discord</a>
+        <a class="footer-link" href="https://discord.gg/85mr78mt24" target="_blank" rel="noreferrer">Ghosts of Tabor Discord</a>
+        <a class="footer-link" href="/privacy">Privacy Policy</a>
+      </div>
+    </footer>
+  </main>
+
+  <script src="/api/config.js"></script>
+  <script type="module" src="/assets/js/profile-page.js?v=20260420d"></script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 import { fetchJson } from "/assets/js/api-client.js";
-import { initAppShell } from "/assets/js/app-shell.js?v=20260420c";
+import { initAppShell } from "/assets/js/app-shell.js?v=20260420d";
 import { escapeHtml } from "/assets/js/skin-data.js?v=20260419d";
 import {
   filterTradeListings,
@@ -7,7 +7,7 @@ import {
   renderTradeCard,
   SERVER_TYPES,
   TRADE_TYPES,
-} from "/assets/js/trade-utils.js?v=20260420c";
+} from "/assets/js/trade-utils.js?v=20260420d";
 
 const state = {
   rows: [],

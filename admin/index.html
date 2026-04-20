@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin | Taboreo</title>
-  <link rel="stylesheet" href="/styles.css?v=20260420c">
+  <link rel="stylesheet" href="/styles.css?v=20260420d">
 </head>
 <body>
   <main class="page-shell page-shell-narrow">
     <header class="site-header panel-card">
       <div class="site-header-copy">
         <p class="eyebrow">TABOREO MODERATION</p>
-        <h1>Review pending submissions</h1>
-        <p class="panel-copy">Only Discord accounts on the admin allowlist can approve or reject uploads.</p>
+        <h1>Review moderation queues</h1>
+        <p class="panel-copy">Only Discord accounts on the admin allowlist can approve uploads and grant profile roles.</p>
       </div>
 
       <div class="site-header-nav">
@@ -46,7 +46,7 @@
       <div class="content-panel-header">
         <div>
           <p class="eyebrow">QUEUE</p>
-          <h2>Pending approvals</h2>
+          <h2>Pending preview approvals</h2>
         </div>
 
         <button id="adminLoginButton" class="action-link action-link-button" type="button">Login with Discord</button>
@@ -54,6 +54,18 @@
 
       <p class="inline-message" id="adminStatus" hidden></p>
       <div class="submission-list" id="adminSubmissionList"></div>
+    </section>
+
+    <section class="panel-card content-panel">
+      <div class="content-panel-header">
+        <div>
+          <p class="eyebrow">ROLE REQUESTS</p>
+          <h2>Bodyguard and BOA applications</h2>
+        </div>
+      </div>
+
+      <p class="inline-message" id="adminApplicationsStatus" hidden></p>
+      <div class="application-review-list" id="adminApplicationsList"></div>
     </section>
 
     <footer class="site-footer panel-card">
@@ -73,6 +85,6 @@
   </main>
 
   <script src="/api/config.js"></script>
-  <script type="module" src="/assets/js/admin-page.js?v=20260420c"></script>
+  <script type="module" src="/assets/js/admin-page.js?v=20260420d"></script>
 </body>
 </html>

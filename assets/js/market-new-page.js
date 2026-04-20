@@ -1,4 +1,4 @@
-import { initAppShell } from "/assets/js/app-shell.js?v=20260420c";
+import { initAppShell } from "/assets/js/app-shell.js?v=20260420d";
 import {
   getCurrentUser,
   getSupabaseClient,
@@ -11,7 +11,7 @@ import {
   ITEM_TYPES_CREATE,
   SERVER_TYPES_CREATE,
   TRADE_TYPES_CREATE,
-} from "/assets/js/trade-utils.js?v=20260420c";
+} from "/assets/js/trade-utils.js?v=20260420d";
 
 function byId(id) {
   return document.getElementById(id);

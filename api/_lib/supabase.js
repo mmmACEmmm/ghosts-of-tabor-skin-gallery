@@ -88,6 +88,20 @@ async function getUserFromRequest(req) {
   };
 }
 
+async function getOptionalUserFromRequest(req) {
+  const token = getBearerToken(req);
+  if (!token) {
+    return null;
+  }
+
+  const auth = await getUserFromRequest(req);
+  if (auth.error) {
+    return null;
+  }
+
+  return auth;
+}
+
 async function isAdminUser(client, userId) {
   const { data, error } = await client
     .from("admin_users")
@@ -152,6 +166,48 @@ function attachPublicPreviewUrls(client, submissions) {
   }));
 }
 
+async function getTraderProfilesByUserId(client, userIds) {
+  const filteredUserIds = Array.from(new Set((userIds || []).filter(Boolean)));
+  if (!filteredUserIds.length) {
+    return new Map();
+  }
+
+  const { data, error } = await client
+    .from("public_trader_profiles")
+    .select("*")
+    .in("user_id", filteredUserIds);
+
+  if (error) {
+    throw error;
+  }
+
+  return new Map((data || []).map((row) => [row.user_id, row]));
+}
+
+async function attachTraderProfileMeta(client, rows, options = {}) {
+  const userIdField = options.userIdField || "created_by";
+  const profilesById = await getTraderProfilesByUserId(
+    client,
+    (rows || []).map((row) => row?.[userIdField]).filter(Boolean)
+  );
+
+  return (rows || []).map((row) => {
+    const profile = profilesById.get(row?.[userIdField]) || null;
+    return {
+      ...row,
+      profile_display_name: profile?.display_name || null,
+      profile_in_game_name: profile?.in_game_name || null,
+      profile_bio: profile?.bio || null,
+      is_bodyguard: Boolean(profile?.is_bodyguard),
+      is_boa_verified: Boolean(profile?.is_boa_verified),
+      profile_upvotes: Number(profile?.upvotes || 0),
+      profile_downvotes: Number(profile?.downvotes || 0),
+      profile_total_votes: Number(profile?.total_votes || 0),
+      profile_positive_percent: Number(profile?.positive_percent || 0),
+    };
+  });
+}
+
 function attachPublicTradeThumbnailUrls(client, listings) {
   return (listings || []).map((row) => ({
     ...row,
@@ -197,11 +253,13 @@ async function getJsonBody(req) {
 
 module.exports = {
   addSkinMeta,
+  attachTraderProfileMeta,
   attachPublicTradeThumbnailUrls,
   attachPublicPreviewUrls,
   createAnonClient,
   createUserClient,
   getJsonBody,
+  getOptionalUserFromRequest,
   getPublicPreviewUrl,
   getPublicStorageUrl,
   getRequiredEnv,

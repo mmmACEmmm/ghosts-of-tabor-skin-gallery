@@ -49,6 +49,44 @@ create table if not exists public.trade_listings (
   archived_at timestamptz
 );
 
+create table if not exists public.trader_profiles (
+  user_id uuid primary key,
+  display_name text,
+  in_game_name text,
+  bio text,
+  is_bodyguard boolean not null default false,
+  is_boa_verified boolean not null default false,
+  created_at timestamptz default now() not null,
+  updated_at timestamptz default now() not null
+);
+
+create table if not exists public.profile_votes (
+  id uuid primary key default gen_random_uuid(),
+  target_user_id uuid not null,
+  voter_user_id uuid not null,
+  vote smallint not null check (vote in (-1, 1)),
+  created_at timestamptz default now() not null,
+  updated_at timestamptz default now() not null,
+  unique (target_user_id, voter_user_id),
+  check (target_user_id <> voter_user_id)
+);
+
+create table if not exists public.role_applications (
+  id uuid primary key default gen_random_uuid(),
+  applicant_user_id uuid not null,
+  application_type text not null check (application_type in ('bodyguard', 'boa')),
+  message text not null,
+  status text not null default 'pending' check (status in ('pending', 'approved', 'rejected')),
+  review_notes text,
+  reviewed_at timestamptz,
+  reviewed_by uuid,
+  created_at timestamptz default now() not null
+);
+
+create unique index if not exists role_applications_one_pending_idx
+on public.role_applications (applicant_user_id, application_type)
+where status = 'pending';
+
 create or replace view public.approved_previews as
 select
   s.id,
@@ -62,6 +100,36 @@ select
 from public.submissions s
 join public.skins k on k.id = s.skin_id
 where s.status = 'approved';
+
+create or replace view public.profile_reputation_summary as
+select
+  v.target_user_id as user_id,
+  count(*) filter (where v.vote = 1) as upvotes,
+  count(*) filter (where v.vote = -1) as downvotes,
+  count(*) as total_votes,
+  case
+    when count(*) = 0 then 0
+    else round((count(*) filter (where v.vote = 1))::numeric / count(*)::numeric * 100, 0)::int
+  end as positive_percent
+from public.profile_votes v
+group by v.target_user_id;
+
+create or replace view public.public_trader_profiles as
+select
+  p.user_id,
+  p.display_name,
+  p.in_game_name,
+  p.bio,
+  p.is_bodyguard,
+  p.is_boa_verified,
+  p.created_at,
+  p.updated_at,
+  coalesce(r.upvotes, 0) as upvotes,
+  coalesce(r.downvotes, 0) as downvotes,
+  coalesce(r.total_votes, 0) as total_votes,
+  coalesce(r.positive_percent, 0) as positive_percent
+from public.trader_profiles p
+left join public.profile_reputation_summary r on r.user_id = p.user_id;
 
 create or replace view public.active_trade_listings as
 select
@@ -90,15 +158,23 @@ where t.status = 'active'
 grant usage on schema public to anon, authenticated;
 grant select on public.skins to anon, authenticated;
 grant select on public.approved_previews to anon, authenticated;
+grant select on public.public_trader_profiles to anon, authenticated;
+grant select on public.profile_reputation_summary to anon, authenticated;
 grant select on public.active_trade_listings to anon, authenticated;
 grant select, insert, update on public.submissions to authenticated;
 grant select, insert, update on public.trade_listings to authenticated;
+grant select, insert, update on public.trader_profiles to authenticated;
+grant select, insert, update, delete on public.profile_votes to authenticated;
+grant select, insert, update on public.role_applications to authenticated;
 grant select on public.admin_users to authenticated;
 
 alter table public.skins enable row level security;
 alter table public.submissions enable row level security;
 alter table public.admin_users enable row level security;
 alter table public.trade_listings enable row level security;
+alter table public.trader_profiles enable row level security;
+alter table public.profile_votes enable row level security;
+alter table public.role_applications enable row level security;
 
 drop policy if exists "skins are viewable by everyone" on public.skins;
 create policy "skins are viewable by everyone"
@@ -201,6 +277,146 @@ using (
 drop policy if exists "admins can update all trade listings" on public.trade_listings;
 create policy "admins can update all trade listings"
 on public.trade_listings
+for update
+to authenticated
+using (
+  exists (
+    select 1
+    from public.admin_users a
+    where a.user_id = auth.uid()
+  )
+)
+with check (
+  exists (
+    select 1
+    from public.admin_users a
+    where a.user_id = auth.uid()
+  )
+);
+
+drop policy if exists "users can insert own trader profile" on public.trader_profiles;
+create policy "users can insert own trader profile"
+on public.trader_profiles
+for insert
+to authenticated
+with check (user_id = auth.uid());
+
+drop policy if exists "users can view own trader profile" on public.trader_profiles;
+create policy "users can view own trader profile"
+on public.trader_profiles
+for select
+to authenticated
+using (user_id = auth.uid());
+
+drop policy if exists "users can update own trader profile" on public.trader_profiles;
+create policy "users can update own trader profile"
+on public.trader_profiles
+for update
+to authenticated
+using (user_id = auth.uid())
+with check (user_id = auth.uid());
+
+drop policy if exists "admins can read all trader profiles" on public.trader_profiles;
+create policy "admins can read all trader profiles"
+on public.trader_profiles
+for select
+to authenticated
+using (
+  exists (
+    select 1
+    from public.admin_users a
+    where a.user_id = auth.uid()
+  )
+);
+
+drop policy if exists "admins can update all trader profiles" on public.trader_profiles;
+create policy "admins can update all trader profiles"
+on public.trader_profiles
+for update
+to authenticated
+using (
+  exists (
+    select 1
+    from public.admin_users a
+    where a.user_id = auth.uid()
+  )
+)
+with check (
+  exists (
+    select 1
+    from public.admin_users a
+    where a.user_id = auth.uid()
+  )
+);
+
+drop policy if exists "users can insert own profile votes" on public.profile_votes;
+create policy "users can insert own profile votes"
+on public.profile_votes
+for insert
+to authenticated
+with check (
+  voter_user_id = auth.uid()
+  and target_user_id <> auth.uid()
+);
+
+drop policy if exists "users can view related profile votes" on public.profile_votes;
+create policy "users can view related profile votes"
+on public.profile_votes
+for select
+to authenticated
+using (
+  voter_user_id = auth.uid()
+  or target_user_id = auth.uid()
+);
+
+drop policy if exists "users can update own profile votes" on public.profile_votes;
+create policy "users can update own profile votes"
+on public.profile_votes
+for update
+to authenticated
+using (voter_user_id = auth.uid())
+with check (
+  voter_user_id = auth.uid()
+  and target_user_id <> auth.uid()
+);
+
+drop policy if exists "users can delete own profile votes" on public.profile_votes;
+create policy "users can delete own profile votes"
+on public.profile_votes
+for delete
+to authenticated
+using (voter_user_id = auth.uid());
+
+drop policy if exists "users can insert own role applications" on public.role_applications;
+create policy "users can insert own role applications"
+on public.role_applications
+for insert
+to authenticated
+with check (applicant_user_id = auth.uid());
+
+drop policy if exists "users can view own role applications" on public.role_applications;
+create policy "users can view own role applications"
+on public.role_applications
+for select
+to authenticated
+using (applicant_user_id = auth.uid());
+
+drop policy if exists "admins can read all role applications" on public.role_applications;
+create policy "admins can read all role applications"
+on public.role_applications
+for select
+to authenticated
+using (
+  exists (
+    select 1
+    from public.admin_users a
+    where a.user_id = auth.uid()
+  )
+);
+
+drop policy if exists "admins can update all role applications" on public.role_applications;
+create policy "admins can update all role applications"
+on public.role_applications
 for update
 to authenticated
 using (

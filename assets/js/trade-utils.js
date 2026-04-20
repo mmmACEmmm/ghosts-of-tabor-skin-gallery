@@ -60,8 +60,47 @@ function getInitials(value) {
     .join("");
 }
 
+export function getProfileHref(userId) {
+  const normalizedId = String(userId || "").trim();
+  return normalizedId ? `/profile?user=${encodeURIComponent(normalizedId)}` : "/profile";
+}
+
 export function getTradeDisplayName(row) {
-  return row?.trader_handle || row?.created_discord_name || "Operator";
+  return row?.profile_display_name || row?.trader_handle || row?.created_discord_name || "Operator";
+}
+
+function getTradeReputation(row) {
+  const totalVotes = Number(row?.profile_total_votes || 0);
+  const positivePercent = Number(row?.profile_positive_percent || 0);
+
+  if (!totalVotes) {
+    return "";
+  }
+
+  return `${positivePercent}% positive`;
+}
+
+function renderTraderSignals(row) {
+  const signals = [];
+
+  if (row?.profile_in_game_name) {
+    signals.push(`<span class="meta-pill meta-pill-subtle">IGN: ${escapeHtml(row.profile_in_game_name)}</span>`);
+  }
+
+  if (row?.is_bodyguard) {
+    signals.push('<span class="meta-pill meta-pill-bodyguard">Bodyguard</span>');
+  }
+
+  if (row?.is_boa_verified) {
+    signals.push('<span class="meta-pill meta-pill-boa">BOA Verified</span>');
+  }
+
+  const reputation = getTradeReputation(row);
+  if (reputation) {
+    signals.push(`<span class="meta-pill meta-pill-reputation">${escapeHtml(reputation)}</span>`);
+  }
+
+  return signals.length ? `<div class="trade-user-signals">${signals.join("")}</div>` : "";
 }
 
 export function formatTradeDate(value) {
@@ -89,6 +128,9 @@ export function filterTradeListings(rows, filters) {
       row.asking_price,
       row.created_discord_name,
       row.trader_handle,
+      row.profile_display_name,
+      row.profile_in_game_name,
+      row.profile_bio,
     ]
       .join(" ")
       .toLowerCase();
@@ -109,6 +151,7 @@ export function renderTradeCard(row, options = {}) {
 
   const displayName = getTradeDisplayName(row);
   const avatarUrl = row.created_discord_avatar_url || "";
+  const profileHref = getProfileHref(row?.created_by);
   const statusHtml = showStatus
     ? `<span class="trade-pill trade-status-${escapeHtml(row.status || "active")}">${escapeHtml(
         String(row.status || "active")
@@ -127,19 +170,22 @@ export function renderTradeCard(row, options = {}) {
   return `
     <article class="trade-card panel-card" data-listing-id="${escapeHtml(row.id)}">
       <div class="trade-card-header">
-        <div class="trade-user">
-          <div class="trade-avatar-shell">
-            ${
-              avatarUrl
-                ? `<img class="trade-avatar" src="${encodeAssetPath(avatarUrl)}" alt="${escapeHtml(displayName)} avatar">`
-                : `<span class="trade-avatar-placeholder">${escapeHtml(getInitials(displayName))}</span>`
-            }
-          </div>
+          <div class="trade-user">
+          <a class="trade-user-link" href="${escapeHtml(profileHref)}">
+            <div class="trade-avatar-shell">
+              ${
+                avatarUrl
+                  ? `<img class="trade-avatar" src="${encodeAssetPath(avatarUrl)}" alt="${escapeHtml(displayName)} avatar">`
+                  : `<span class="trade-avatar-placeholder">${escapeHtml(getInitials(displayName))}</span>`
+              }
+            </div>
 
-          <div class="trade-user-copy">
-            <p class="trade-user-name">${escapeHtml(displayName)}</p>
-            <p class="trade-user-date">${escapeHtml(formatTradeDate(row.created_at))}</p>
-          </div>
+            <div class="trade-user-copy">
+              <p class="trade-user-name">${escapeHtml(displayName)}</p>
+              <p class="trade-user-date">${escapeHtml(formatTradeDate(row.created_at))}</p>
+              ${renderTraderSignals(row)}
+            </div>
+          </a>
         </div>
 
         <div class="trade-badge-row">

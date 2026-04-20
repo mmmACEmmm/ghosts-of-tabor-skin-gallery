@@ -15,6 +15,7 @@ Taboreo is a static Vercel deployment backed by Supabase for Discord login, prev
 - `/` public skin gallery
 - `/market` public trade listings
 - `/market/new` authenticated create-listing form
+- `/profile` trader profile, reputation, and role applications
 - `/login` Discord sign-in entry point
 - `/submit` authenticated upload form
 - `/my-submissions` per-user status view
@@ -59,4 +60,4 @@ At a high level:
 - Until `SUPABASE_URL` and `SUPABASE_ANON_KEY` are configured, the gallery falls back to bundled repo previews so the site still deploys cleanly.
 - Once Supabase is configured, the public preview list comes from approved database records instead of the old static preview list.
 - The public gallery no longer depends on a service-role secret just to load approved previews.
-- The public market depends on the `trade_listings` table and related policies in [supabase/schema.sql](/C:/Users/acest/Downloads/wiki%20test%20page/supabase/schema.sql).
+- The public market depends on the `trade_listings`, `trader_profiles`, `profile_votes`, and `role_applications` tables plus related policies in [supabase/schema.sql](/C:/Users/acest/Downloads/wiki%20test%20page/supabase/schema.sql).
