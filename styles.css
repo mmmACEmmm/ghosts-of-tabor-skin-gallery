@@ -310,6 +310,17 @@ h1 {
   justify-items: end;
 }
 
+.account-summary,
+.user-card,
+.user-meta {
+  display: grid;
+}
+
+.account-summary {
+  gap: 10px;
+  justify-items: end;
+}
+
 .nav-links {
   justify-content: flex-end;
 }
@@ -363,6 +374,71 @@ h1 {
   margin: 0;
   color: var(--muted);
   text-align: right;
+}
+
+.user-card {
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  min-width: min(100%, 280px);
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.user-avatar-shell {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.12), transparent 58%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
+}
+
+.user-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-avatar-initial {
+  color: var(--text);
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.user-meta {
+  gap: 2px;
+  min-width: 0;
+}
+
+.user-name,
+.user-role {
+  margin: 0;
+}
+
+.user-name {
+  overflow: hidden;
+  font-size: 0.98rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-role {
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.user-role.is-admin {
+  color: #b8ffcf;
 }
 
 .gallery-callout {
@@ -533,6 +609,10 @@ h1 {
 
   .nav-links {
     justify-content: flex-start;
+  }
+
+  .account-summary {
+    justify-items: start;
   }
 
   .session-label {

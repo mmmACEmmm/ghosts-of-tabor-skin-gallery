@@ -1,11 +1,12 @@
 import { fetchJson } from "/assets/js/api-client.js";
-import { initAppShell } from "/assets/js/app-shell.js";
+import { initAppShell } from "/assets/js/app-shell.js?v=20260419c";
 import { loadStaticSkinData } from "/assets/js/skin-data.js";
 import {
   getCurrentUser,
   getSupabaseClient,
   isSupabaseConfigured,
   loginWithDiscord,
+  onAuthStateChange,
 } from "/assets/js/supabase-browser.js";
 
 function byId(id) {
@@ -120,6 +121,12 @@ async function init() {
 
   const user = shellState.user || (await getCurrentUser().catch(() => null));
   if (!user) {
+    onAuthStateChange(function (_event, session) {
+      if (session?.user) {
+        window.location.reload();
+      }
+    });
+
     setAuthGate(false);
     setMessage("Sign in with Discord to upload a preview image.", "warning");
     return;

@@ -1,5 +1,5 @@
 import { fetchJson } from "/assets/js/api-client.js";
-import { initAppShell } from "/assets/js/app-shell.js";
+import { initAppShell } from "/assets/js/app-shell.js?v=20260419c";
 import {
   encodeAssetPath,
   escapeHtml,

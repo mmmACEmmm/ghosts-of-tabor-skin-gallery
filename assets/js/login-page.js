@@ -1,8 +1,9 @@
-import { initAppShell } from "/assets/js/app-shell.js";
+import { initAppShell } from "/assets/js/app-shell.js?v=20260419c";
 import {
   getCurrentUser,
   isSupabaseConfigured,
   loginWithDiscord,
+  onAuthStateChange,
 } from "/assets/js/supabase-browser.js";
 
 function setMessage(message, tone = "") {
@@ -34,6 +35,16 @@ async function init() {
     continueLink.hidden = false;
     loginButton.hidden = true;
   }
+
+  onAuthStateChange(function (_event, session) {
+    if (!session?.user) {
+      return;
+    }
+
+    setMessage("Your Discord session is active. You can head straight to submissions.", "success");
+    continueLink.hidden = false;
+    loginButton.hidden = true;
+  });
 
   loginButton.addEventListener("click", async function () {
     loginButton.disabled = true;

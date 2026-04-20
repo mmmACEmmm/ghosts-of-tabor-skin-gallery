@@ -1,7 +1,12 @@
 import { fetchJson } from "/assets/js/api-client.js";
-import { initAppShell } from "/assets/js/app-shell.js";
+import { initAppShell } from "/assets/js/app-shell.js?v=20260419c";
 import { encodeAssetPath, escapeHtml } from "/assets/js/skin-data.js";
-import { isSupabaseConfigured, loginWithDiscord } from "/assets/js/supabase-browser.js";
+import {
+  getCurrentUser,
+  isSupabaseConfigured,
+  loginWithDiscord,
+  onAuthStateChange,
+} from "/assets/js/supabase-browser.js";
 
 function byId(id) {
   return document.getElementById(id);
@@ -95,7 +100,14 @@ async function init() {
     return;
   }
 
-  if (!shellState.user) {
+  const user = shellState.user || (await getCurrentUser().catch(() => null));
+  if (!user) {
+    onAuthStateChange(function (_event, session) {
+      if (session?.user) {
+        window.location.reload();
+      }
+    });
+
     setMessage("Sign in with Discord to see your submissions.", "warning");
     return;
   }

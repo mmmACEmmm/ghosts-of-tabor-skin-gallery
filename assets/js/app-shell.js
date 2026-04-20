@@ -16,7 +16,33 @@ function getDiscordName(user) {
   );
 }
 
-async function resolveAdminState(user) {
+function getDiscordAvatar(user) {
+  return (
+    user?.user_metadata?.avatar_url ||
+    user?.user_metadata?.picture ||
+    user?.user_metadata?.profile_image ||
+    user?.identities?.[0]?.identity_data?.avatar_url ||
+    ""
+  );
+}
+
+function getInitials(value) {
+  const parts = String(value || "")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+
+  if (!parts.length) {
+    return "?";
+  }
+
+  return parts
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() || "")
+    .join("");
+}
+
+export async function resolveAdminState(user) {
   if (!user) {
     return false;
   }
@@ -42,6 +68,10 @@ async function resolveAdminState(user) {
 
 function applyNavState(state) {
   const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
+  const displayName = getDiscordName(state.user);
+  const avatarUrl = getDiscordAvatar(state.user);
+  const roleLabel = state.isAdmin ? "Admin access" : "Signed in with Discord";
+  const initialText = getInitials(displayName);
 
   document.querySelectorAll("[data-nav-link]").forEach((link) => {
     const target = link.getAttribute("href")?.replace(/\/$/, "") || "/";
@@ -68,13 +98,44 @@ function applyNavState(state) {
     node.hidden = !state.user || !state.isAdmin;
   });
 
+  document.querySelectorAll("[data-user-card]").forEach((node) => {
+    node.hidden = !state.user;
+  });
+
+  document.querySelectorAll("[data-user-name]").forEach((node) => {
+    node.textContent = state.user ? displayName : "";
+  });
+
+  document.querySelectorAll("[data-user-role]").forEach((node) => {
+    node.textContent = state.user ? roleLabel : "";
+    node.classList.toggle("is-admin", Boolean(state.user && state.isAdmin));
+  });
+
+  document.querySelectorAll("[data-user-avatar]").forEach((node) => {
+    if (state.user && avatarUrl) {
+      node.hidden = false;
+      node.src = avatarUrl;
+      node.alt = `${displayName} avatar`;
+      return;
+    }
+
+    node.hidden = true;
+    node.removeAttribute("src");
+    node.alt = "";
+  });
+
+  document.querySelectorAll("[data-user-initial]").forEach((node) => {
+    node.hidden = !state.user || Boolean(avatarUrl);
+    node.textContent = state.user ? initialText : "";
+  });
+
   document.querySelectorAll("[data-session-label]").forEach((node) => {
     if (!state.configured) {
       node.textContent = "Supabase env vars are not configured yet.";
       return;
     }
 
-    node.textContent = state.user ? `Signed in as ${getDiscordName(state.user)}` : "Browsing publicly.";
+    node.textContent = state.user ? roleLabel : "Browsing publicly.";
   });
 }
 
