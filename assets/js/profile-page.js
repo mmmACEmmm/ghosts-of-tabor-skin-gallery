@@ -364,7 +364,8 @@ function renderPage() {
 }
 
 async function loadProfile() {
-  const url = new URL("/api/profile/details", window.location.origin);
+  const url = new URL("/api/profile", window.location.origin);
+  url.searchParams.set("view", "details");
   if (state.targetUserId) {
     url.searchParams.set("userId", state.targetUserId);
   }
@@ -383,7 +384,7 @@ async function handleVote(nextVote) {
 
   setMessage("Saving your trader rating...");
 
-  await fetchJson("/api/profile/vote", {
+  await fetchJson("/api/profile?action=vote", {
     method: "POST",
     authenticated: true,
     body: {
@@ -401,7 +402,7 @@ async function handleProfileSave(event) {
 
   setMessage("Saving your profile...");
 
-  await fetchJson("/api/profile/update", {
+  await fetchJson("/api/profile?action=update", {
     method: "POST",
     authenticated: true,
     body: {
@@ -420,7 +421,7 @@ async function handleApplicationSubmit(event) {
 
   setMessage("Sending your application...");
 
-  await fetchJson("/api/profile/apply", {
+  await fetchJson("/api/profile?action=apply", {
     method: "POST",
     authenticated: true,
     body: {

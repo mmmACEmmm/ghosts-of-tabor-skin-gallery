@@ -70,7 +70,7 @@ function renderRows(rows) {
 }
 
 async function loadRows() {
-  const response = await fetchJson("/api/trades/my-listings", {
+  const response = await fetchJson("/api/trades?view=my-listings", {
     authenticated: true,
   });
 
@@ -136,7 +136,7 @@ async function init() {
     setMessage(`Updating listing...`);
 
     try {
-      await fetchJson("/api/trades/update", {
+      await fetchJson("/api/trades?action=update", {
         method: "POST",
         authenticated: true,
         body: {

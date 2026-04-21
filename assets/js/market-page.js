@@ -91,7 +91,7 @@ async function init() {
   setMessage("Loading active trades...");
 
   try {
-    const response = await fetchJson("/api/trades/listings");
+    const response = await fetchJson("/api/trades?view=listings");
 
     if (response.configured === false) {
       byId("sellListings").innerHTML = renderEmptyState(

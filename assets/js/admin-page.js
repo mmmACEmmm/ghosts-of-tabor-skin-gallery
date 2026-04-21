@@ -155,7 +155,7 @@ function renderApplicationRows(rows) {
 }
 
 async function loadPendingRows() {
-  const response = await fetchJson("/api/admin/pending", {
+  const response = await fetchJson("/api/admin?view=pending", {
     authenticated: true,
   });
 
@@ -163,7 +163,7 @@ async function loadPendingRows() {
 }
 
 async function loadApplications() {
-  const response = await fetchJson("/api/admin/applications", {
+  const response = await fetchJson("/api/admin?view=applications", {
     authenticated: true,
   });
 
@@ -246,7 +246,7 @@ async function init() {
     setSectionMessage("adminStatus", `Saving ${action} review...`);
 
     try {
-      await fetchJson("/api/admin/review", {
+      await fetchJson("/api/admin?action=review", {
         method: "POST",
         authenticated: true,
         body: {
@@ -283,7 +283,7 @@ async function init() {
     setSectionMessage("adminApplicationsStatus", `Saving ${action} review...`);
 
     try {
-      await fetchJson("/api/admin/application-review", {
+      await fetchJson("/api/admin?action=application-review", {
         method: "POST",
         authenticated: true,
         body: {

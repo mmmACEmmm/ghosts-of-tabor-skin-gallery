@@ -72,5 +72,5 @@ The current implementation does not require `SUPABASE_SERVICE_ROLE_KEY`, which m
 - Until then, the gallery falls back to bundled repo previews so the site still works during setup.
 - `/submit` uploads to `previews/pending/<user-id>/...`
 - `/my-submissions` shows the user's own rows
-- `/admin` reads pending rows and reviews them through `/api/admin/review`
+- `/admin` reads pending rows and reviews them through the consolidated `/api/admin` handler
 - Approved uploads store a `public_url`, and the public gallery reads only approved database rows rather than scanning the storage bucket directly
